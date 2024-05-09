@@ -1,0 +1,334 @@
+.container {
+    display: flex;
+    justify-content: space-between;
+}
+.preview-area {
+    width: 70%;
+    padding: 20px;
+}
+.control-panel {
+    width: 30%;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    background-color: #fafafa;
+}
+.control-panel input, .control-panel select, .control-panel button {
+    margin-top: 10px;
+    width: 100%;
+}
+.component {
+    position: relative;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.component button {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    border: none;
+    background: #ffffff96;
+    cursor: pointer;
+    color:#005DE8;
+    border-radius: 5px;
+}
+
+
+H3 {
+    background-color: #ffffff00;
+    color: #240F6E;
+    text-align: center;
+    font-family: 'Merriweather';
+    font-size: 16px;
+}
+
+button {
+    display: flex;
+    padding: 4px 16px;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    border-radius: 4px;
+    border: 1px solid var(--actions-highlights-purple-blue-border, rgba(0, 93, 232, 0.40));
+    background: var(--Backgrounds-White, #FFF);
+    color: var(--actions-highlights-purple-blue-50, #005DE8);
+    text-align: center;
+    font-feature-settings: 'clig' off, 'liga' off;
+    font-family: Lato;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 18px; 
+}
+
+button:hover {
+    background: var(--actions-highlights-purple-blue-50, #005DE8); 
+    color: #FFF; 
+    border-color: var(--actions-highlights-purple-blue-50, #005DE8); 
+}
+
+H4 {
+    background-color: #ffffff00;
+    color: #240F6E;
+    text-align: center;
+    font-family: 'Open sans';
+    font-size: 14px;
+}
+
+
+
+.column-title {
+    margin-top: 5; 
+    margin-bottom: 0;
+}
+
+
+.header-title {
+    margin-bottom: 0; 
+}
+
+
+.input-field {
+    margin: 5px 0; 
+}
+
+hr {
+    border: none;
+    border-top: 1px solid #ddd; 
+    margin: 20px 0;
+}
+
+.align-Text {
+    margin-bottom: 0;
+}
+
+
+#components-preview {
+    position: relative;
+     
+    
+}
+
+
+.move-btn {
+    border: none;
+    background: none;
+    cursor: pointer;
+}
+
+
+.up-btn {
+    position: absolute; 
+    left: 80px; 
+    width: 10px;
+}
+
+
+.down-btn {
+    position: absolute; 
+    bottom: 10px; 
+    left: 10px; 
+    width: 10px;
+}
+
+
+
+.delete-btn {
+    position: absolute; 
+    right: 10px; 
+    border: none;
+    background: none;
+    background: #005DE8#fff;
+    cursor: pointer;
+    color:#fff;
+    padding: 5px;
+}
+
+.bold-btn {
+    position: absolute; 
+    bottom: 10px; 
+    left: 160px; 
+    width: 10px;
+}
+
+.link-btn {
+    position: absolute; 
+    bottom: 10px; 
+    left: 200px; 
+    width: 10px;
+}
+
+.bullet-btn {
+    position: absolute; 
+    bottom: 10px; 
+    left: 240px; 
+    width: 10px;
+}
+
+.left-btn {
+    position: absolute; 
+    bottom: 10px; 
+    left: 280px; 
+    width: 10px;
+}
+
+.center-btn {
+    position: absolute; 
+    bottom: 10px; 
+    left: 320px; 
+    width: 10px;
+}
+
+.right-btn {
+    position: absolute; 
+    bottom: 10px; 
+    left: 360px; 
+    width: 10px;
+}
+
+.embed-video-btn {
+    position: absolute; 
+    bottom: 10px; 
+    left: 400px; 
+    width: 10px;
+}
+
+.embed-image-btn {
+    position: absolute; 
+    bottom: 10px; 
+    left: 440px; 
+    width: 10px;
+}
+
+.edit-html-btn {
+    position: absolute; 
+    bottom: 10px; 
+    left: 480px; 
+    width: 10px;
+}
+
+.delete-embed-btn {
+    position: absolute;
+    top: 5px; 
+    border: none;
+    background: none;
+    background: #005DE8#fff;
+    cursor: pointer;
+    color:#fff;
+    padding: 5px;
+    height: 20px;
+}
+
+.edit-embed-btn {
+    position: absolute;
+    top: 5px;
+    left: 10px;
+    border: none;
+    background: none;
+    background: #005DE8#fff;
+    cursor: pointer;
+    color:#fff;
+    padding: 5px;
+    height: 20px;
+    width: 20px;
+}
+
+
+@keyframes moveAndFade {
+    0% { opacity: 1; }
+    25% { opacity: 0.5; }
+    75% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
+
+.move-and-fade {
+    animation: moveAndFade 0.5s ease forwards;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+    text-align: center;
+    color:#240F6E;
+    font-family: 'Merriweather';
+    font-size: 16px;
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 40px;
+    border: 0px solid #888;
+    width: 50%;
+    border-radius: 10px;
+}
+
+input[type="text"], input[type="number"] {
+    width: 95%; 
+    padding: 8px;  
+    margin-bottom: 5px;  
+    border: 1px solid #ccc; 
+    border-radius: 4px;  
+}
+
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    cursor: pointer;
+}
+
+
+
+.image-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; /* Center the images horizontally */
+    gap: 10px; /* Existing gap for spacing between images */
+}
+
+.image-container {
+    position: relative;
+    display: inline-block; /* Keeps the container inline but allows relative positioning for icons */
+}
+
+.image-container img {
+    width: 200px; /* Keep your existing settings */
+    height: auto;
+    border-radius: 10px;
+    display: block; /* Ensures images are block level to handle widths correctly */
+}
+
+.copy-icon {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    color: #005DE8;
+    background: rgba(255, 255, 255, 0.496);
+    border-radius: 30%;
+    padding: 5px;
+    cursor: pointer;
+}
+
+.copy-icon:hover {
+    background: #005DE8;
+    color: #ffffff;
+}
+
+.upload-btn-container {
+    text-align: center;
+    width: 100%; /* Ensures the button is centered in its container */
+    margin-top: 20px; /* Space above the button */
+    margin-bottom: 40px; /* Space below the button */
+}

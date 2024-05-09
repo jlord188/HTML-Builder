@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Newsletter Builder</title>
+    <link rel="stylesheet" href="/styles.css">
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/script.js" defer></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&display=swap');
+        /* Additional styles */
+    </style>
+</head>
+<body>
+
+    
+    <div class="container">
+        <div id="components-preview" class="preview-area"></div>
+        <div class="control-panel">
+
+            <h3 class="header-title" onclick="toggleHeaderInputs()" style="cursor: pointer;">
+                Add Header <i id="toggleIcon"></i>
+            </h3>
+            <div id="HeaderInputs" style="display: none;">
+                <select id="background-select" onchange="toggleCustomUrlInput()">
+                    <option value="https://i.imgur.com/Y6sggKl.png">Blue</option>
+                    <option value="https://i.imgur.com/S5WgJGv.jpeg">Green</option>
+                    <option value="https://i.imgur.com/2vlooWI.png">Pink</option>
+                    <option value="https://i.imgur.com/VNR5aEK.jpeg">Orange</option>
+                    <option value="other">Other (Enter URL)</option>
+                </select>
+                <input type="text" id="custom-url" placeholder="Enter custom URL" style="display: none;">
+                <input type="text" id="h1-text" placeholder="Enter Header text">
+                <input type="text" id="p-text" placeholder="Enter body text">
+                <h4 class="align-Text">Align Text</h4>
+                <select id="Text-alignment">
+                    <option value="center">Center</option>
+                    <option value="left">Left</option>
+                    <option value="right">Right</option>
+                </select>
+                <button onclick="addComponent()">Add Header</button>
+            </div>
+
+            <hr>
+            
+            <!-- Toggle for One Column Component -->
+            <h3 class="header-title" onclick="toggleOneColumnInputs()" style="cursor: pointer;">
+             Add One Column Block <i id="toggleOneIcon"></i>
+            </h3>
+        <div id="OneColumnInputs" style="display: none;">
+            <!-- Inputs for One Column -->
+            <input type="text" id="h2-text-col1" placeholder="Enter H2 text for Column">
+            <input type="text" id="p-text-col1" placeholder="Enter Paragraph text for Column">
+            <input type="text" id="img-url-col1" placeholder="Enter Image URL for Column">
+            <select id="img-style-col1">
+                <option value="square">Square 250px x 250px</option>
+                <option value="full-width">Full Width</option>
+            </select>
+            <input type="text" id="button-url-col1" placeholder="Enter Button URL">
+            <input type="text" id="button-text-col1" placeholder="Enter Button Text">
+            <h4 class="align-Text">Align Text</h4>
+            <select id="Text-alignment-col1">
+                <option value="center">Center</option>
+                <option value="left">Left</option>
+                <option value="right">Right</option>
+            </select>
+            <button onclick="addOneColumnComponent()">Add One Column Block</button>
+        </div>
+            
+            <hr>
+
+        <h3 class="header-title" onclick="toggleTwoColumnInputs()" style="cursor: pointer; user-select: none;">
+            Add Two Column Block <i id="toggleIcon"></i>
+        </h3>
+        <div id="twoColumnInputs" style="display: none;">
+            <div>
+                <h4 class="column-title">Column One</h4>
+                <input type="text" id="h2-text-col1-2col" placeholder="Enter Header">
+                <input type="text" id="p-text-col1-2col" placeholder="Enter bodytext">
+                <input type="text" id="img-url-col1-2col" placeholder="Enter Image URL">
+                <select id="img-style-col1-2col">
+                    <option value="square">Square Image</option>
+                    <option value="full-width">Landscape Image</option>
+                </select>
+                <input type="text" id="button-url-col1-2col" placeholder="Enter Button URL">
+                <input type="text" id="button-text-col1-2col" placeholder="Enter Button Text">
+            </div>
+            <div>
+                <h4 class="column-title">Column Two</h4>
+                <input type="text" id="h2-text-col2-2col" placeholder="Enter Header">
+                <input type="text" id="p-text-col2-2col" placeholder="Enter bodytext">
+                <input type="text" id="img-url-col2-2col" placeholder="Enter Image URL">
+                <select id="img-style-col2-2col"> <!-- Check if this ID is correct -->
+                    <option value="square">Square Image</option>
+                    <option value="full-width">Landscape Image</option>
+                </select>
+                <input type="text" id="button-url-col2-2col" placeholder="Enter Button URL">
+                <input type="text" id="button-text-col2-2col" placeholder="Enter Button Text">
+            </div>
+            <select id="Text-alignment-col2">
+                <option value="center">Center</option>
+                <option value="left">Left</option>
+                <option value="right">Right</option>
+            </select>
+            <button onclick="addTwoColumnComponent()">Add Two Column Block</button>
+            </div>
+
+            <hr>
+
+            <h3 class="header-title" onclick="toggleThreeColumnInputs()" style="cursor: pointer; user-select: none;">
+                    Add Three Column Block <i id="toggleIcon"></i>
+                </h3>
+                <div id="threeColumnInputs" style="display: none;">
+                    <div>
+                        <h4 class="column-title">Column One</h4>
+                        <input type="text" id="h2-text-col1-3col" placeholder="Enter Header">
+                        <input type="text" id="p-text-col1-3col" placeholder="Enter bodytext">
+                        <input type="text" id="img-url-col1-3col" placeholder="Enter Image URL">
+                        <select id="img-style-col1-3col">
+                            <option value="square">Square Image</option>
+                            <option value="full-width">Landscape Image</option>
+                        </select>
+                        <input type="text" id="button-url-col1-3col" placeholder="Enter Button URL">
+                        <input type="text" id="button-text-col1-3col" placeholder="Enter Button Text">
+                    </div>
+                    <div>
+                        <h4 class="column-title">Column Two</h4>
+                        <input type="text" id="h2-text-col2-3col" placeholder="Enter Header">
+                        <input type="text" id="p-text-col2-3col" placeholder="Enter bodytext">
+                        <input type="text" id="img-url-col2-3col" placeholder="Enter Image URL">
+                        <select id="img-style-col2-3col">
+                            <option value="square">Square Image</option>
+                            <option value="full-width">Landscape Image</option>
+                        </select>
+                        <input type="text" id="button-url-col2-3col" placeholder="Enter Button URL">
+                        <input type="text" id="button-text-col2-3col" placeholder="Enter Button Text">
+                    </div>
+                    <div>
+                        <h4 class="column-title">Column Three</h4>
+                        <input type="text" id="h2-text-col3-3col" placeholder="Enter Header">
+                        <input type="text" id="p-text-col3-3col" placeholder="Enter bodytext">
+                        <input type="text" id="img-url-col3-3col" placeholder="Enter Image URL">
+                        <select id="img-style-col3-3col">
+                            <option value="square">Square Image</option>
+                            <option value="full-width">Landscape Image</option>
+                        </select>                        
+                        <input type="text" id="button-url-col3-3col" placeholder="Enter Button URL">
+                        <input type="text" id="button-text-col3-3col" placeholder="Enter Button Text">
+                    </div>
+                    <h4 class="align-Text">Align Text</h4>
+                    <select id="Text-alignment-col3">
+                        <option value="center">Center</option>
+                        <option value="left">Left</option>
+                        <option value="right">Right</option>
+                    </select>
+                    <button onclick="addThreeColumnComponent()">Add Three Column Block</button>
+                </div>
+
+                <hr>
+                
+                <h3 class="Colour-Block" onclick="toggleColourInputs()" style="cursor: pointer;">
+                    Add Colour Block <i id="toggleIcon"></i>
+                   </h3>
+                   <div id="ColourInputs" style="display: none;">
+                    <select id="colour-background-select" onchange="toggleCustomUrlInput()">
+                    <option value="https://i.imgur.com/Y6sggKl.png">Blue</option>
+                    <option value="https://i.imgur.com/S5WgJGv.jpeg">Green</option>
+                    <option value="https://i.imgur.com/2vlooWI.png">Pink</option>
+                    <option value="https://i.imgur.com/VNR5aEK.jpeg">Orange</option>
+                    <option value="other">Other (Enter URL)</option>
+                </select>
+                <input type="text" id="custom-url-colour" placeholder="Enter custom URL" style="display: none;">
+                    <input type="text" id="colour-h2-text" placeholder="Enter H2 text">
+                    <input type="text" id="colour-p-text" placeholder="Enter body text">
+                    <h4 class="align-Text">Align Text</h4>
+                    <select id="Text-alignment-colour">
+                        <option value="center">Center</option>
+                        <option value="left">Left</option>
+                        <option value="right">Right</option>
+                    </select>
+                    <button onclick="addColourComponent()">Add Colour Block</button>
+                </div>
+                
+    
+                <hr>
+
+                <h3 class="Footer" onclick="toggleFooterInputs()" style="cursor: pointer;">
+                    Add Footer <i id="toggleIcon"></i>
+                   </h3>
+                   <div id="FooterInputs" style="display: none;">
+                    <input type="text" id="footer-p-text" placeholder="Enter body text">
+                    <h4 class="align-Text">Align Text</h4>
+                    <select id="Text-alignment-footer">
+                        <option value="center">Center</option>
+                        <option value="left">Left</option>
+                        <option value="right">Right</option>
+                    </select>
+                    <button onclick="addFooterComponent()">Add Footer</button>
+                </div>
+                
+    
+                <hr>
+
+                <h3 class="header-title" onclick="toggleImageLibrary()" style="cursor: pointer;">
+                    Image Library <i id="toggleImageLibraryIcon"></i>
+                </h3>
+                <div id="ImageLibrary" style="display: none;">
+                    <input type="file" id="imageUploadInput" name="image" onchange="uploadImage()" style="display: none;">
+                    <div class="upload-btn-container">
+                        <button onclick="triggerUpload()" class="upload-image-btn btn btn-primary">Upload Image</button>
+                    </div>
+                    <div id="imagePreviewArea" class="image-grid"></div>
+                </div>
+                
+                
+                <hr>
+
+                <button id="copyHtmlButton" onclick="copyHtml()">Copy HTML Code</button>
+
+                <!-- Save Button -->
+                <button id="saveButton">Save</button>
+
+                <!-- Save Modal -->
+                <div id="saveModal" class="modal" style="display:none;">
+                    <div class="modal-content">
+                        <span class="close" id="saveModalClose">&times;</span>
+                        <h2>Save Current State</h2>
+                        <input type="text" id="filenameInput" placeholder="Enter filename">
+                    <button id="confirmSaveButton">Save</button>
+                    </div>
+                </div>
+
+                <button id="loadButton">Load</button>
+
+                <!-- Modal for File Selection -->
+                <div id="loadModal" class="modal" style="display:none;">
+                    <div class="modal-content">
+                        <span class="close" id="loadModalClose">&times;</span>
+                        <h2>Select a File to Load</h2>
+                        <select id="file-select"></select>
+                        <button id="confirmLoadButton">Load Selected File</button>
+                        </div>
+                </div>
+
+                <!-- Edit Embed/Image Modal -->
+                <div id="editEmbedModal" class="modal">
+                    <div class="modal-content">
+                        <span class="close" id="editEmbedModalClose">&times;</span>
+                        <h2>Edit Embed/Image</h2>
+                        <label for="embedUrl">URL:</label>
+                        <input type="text" id="embedUrl" placeholder="Enter URL or Embed Code">
+                        <div id="imageSizeFields"  style="display: none;">
+                            <label for="embedWidth">Width (%):</label>
+                            <input type="text" id="embedWidth" placeholder="Width (%)">
+                            <label for="embedHeight">Height (%):</label>
+                            <input type="text" id="embedHeight" placeholder="Height (%)">
+                        </div>                        
+                    <button onclick="saveEmbedChanges()">Save Changes</button>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</body>
+</html>
