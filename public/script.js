@@ -1179,51 +1179,6 @@ function uploadImage() {
     });
 }
 
-function triggerUpload() {
-    document.getElementById('imageUploadInput').click(); // Assuming you have an input element with this id
-}
-
-function getBaseUrl() {
-    // This will dynamically fetch the current protocol and hostname from the window location.
-    return `${window.location.protocol}//${window.location.hostname}${window.location.port ? `:${window.location.port}` : ''}`;
-}
-
-function loadImageLibrary() {
-    const baseUrl = getBaseUrl(); // Get the dynamically determined base URL
-    fetch(`${baseUrl}/images`)
-    .then(response => response.json())
-    .then(images => {
-        const previewArea = document.getElementById('imagePreviewArea');
-        previewArea.innerHTML = ''; // Clear existing previews
-        images.forEach(image => {
-            const imgDiv = document.createElement('div');
-            imgDiv.className = 'image-container';
-            const completeImageUrl = `${baseUrl}${image.url}`;
-            imgDiv.innerHTML = `
-                <img src="${completeImageUrl}">
-                <i class="fas fa-copy copy-icon" onclick="copyImageUrlToClipboard('${completeImageUrl}')"></i>
-            `;
-            previewArea.appendChild(imgDiv);
-        });
-    })
-    .catch(error => console.error('Failed to load images:', error));
-}
-
-
-function copyImageUrlToClipboard(url) {
-    if (!navigator.clipboard || !navigator.clipboard.writeText) {
-        alert('Clipboard not supported or page needs to be served over HTTPS');
-        return;
-    }
-    navigator.clipboard.writeText(url).then(() => {
-        alert('Image URL copied to clipboard');
-    }).catch(err => {
-        console.error('Failed to copy URL:', err);
-        alert('Failed to copy URL');
-    });
-}
-
-// Assuming you have a download button with id "downloadButton"
 const downloadButton = document.getElementById('downloadButton');
 
 // Add event listener to the download button
@@ -1243,28 +1198,23 @@ async function downloadPackagedHtml() {
         contentEditable.removeAttribute('contenteditable');
     });
 
-    // Collect image URLs from HTML content
-    const imageUrls = Array.from(clonePreviewArea.querySelectorAll('img')).map(img => {
-        console.log("Collected image URL:", img.src);  // Ensure URLs are collected
-        return img.src;
+    // This line might be problematic as it removes the cloned preview area itself if it has the ID 'components-preview'
+    // Adjust if necessary, depending on the structure of your HTML
+    clonePreviewArea.querySelectorAll('#components-preview').forEach(element => {
+        element.parentNode.removeChild(element);
     });
+
+    const imageUrls = Array.from(clonePreviewArea.querySelectorAll('img')).map(img => {
+    console.log("Collected image URL:", img.src);
+    return img.src;
+    });
+
 
     try {
         // Download images and store them in a temporary directory
-        const imageFiles = await Promise.all(imageUrls.map(async imageUrl => {
-            console.log(`Attempting to fetch image from: ${imageUrl}`);
-            const response = await fetch(imageUrl);
-            if (!response.ok) {
-                console.error(`Failed to fetch image: ${response.statusText}`);
-                return null; // Handle failed download gracefully
-            }
-            const blob = await response.blob();
-            const filename = imageUrl.split('/').pop();
-            console.log(`Downloaded image ${filename} with size ${blob.size}`);
-            return new File([blob], filename, { type: blob.type });
-        }));
+        const imageFiles = await Promise.all(imageUrls.map(downloadImage));
 
-        // Filter out any failed downloads
+        // Filter out any failed downloads (null values)
         const successfulImageFiles = imageFiles.filter(file => file !== null);
         const successfulImageUrls = successfulImageFiles.map(file => `images/${file.name}`);
 
@@ -1274,6 +1224,8 @@ async function downloadPackagedHtml() {
         // Create a zip file containing index.html and images
         const zip = new JSZip();
         zip.file('index.html', updatedHtmlContent);
+        
+        // Create a subfolder for images
         const imgFolder = zip.folder('images');
         successfulImageFiles.forEach(file => {
             imgFolder.file(file.name, file);
@@ -1291,18 +1243,48 @@ async function downloadPackagedHtml() {
     }
 }
 
+
+function triggerDownload(blob) {
+    const zipUrl = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = zipUrl;
+    link.download = 'packaged-html.zip';
+    link.click();
+}
+
+
+async function downloadImage(imageUrl) {
+    console.log(`Attempting to fetch image from: ${imageUrl}`);
+    const response = await fetch(imageUrl);
+    if (!response.ok) {
+        console.error(`Failed to fetch image: ${response.statusText}`);
+        return null; // Return null to handle this gracefully later
+    }
+    const blob = await response.blob();
+    const filename = imageUrl.split('/').pop();
+    console.log(`Downloaded image ${filename} with size ${blob.size} and type ${blob.type}`);
+    return new File([blob], filename, { type: blob.type });
+}
+
+
 function replaceImageUrls(htmlContent, oldUrls, newUrls) {
     let updatedHtmlContent = htmlContent;
     oldUrls.forEach((oldUrl, index) => {
-        console.log(`Replacing ${oldUrl} with ${newUrls[index]}`);
+        console.log(`Attempting to replace URL: ${oldUrl} with ${newUrls[index]}`);
         const imgSrcRegex = new RegExp(escapeRegExp(oldUrl), 'g');
         updatedHtmlContent = updatedHtmlContent.replace(imgSrcRegex, newUrls[index]);
+        console.log(`Updated segment: ${updatedHtmlContent.substring(0, 200)}`); // Log part of the content
     });
+    console.log("Final Updated HTML Content: ", updatedHtmlContent.substring(0, 500)); // Log part of the final content
     return updatedHtmlContent;
 }
 
+
+
 function escapeRegExp(string) {
-    return string.replace(/[.*+\-?^${}()|[\]\\]/g, '\\$&');
+    return string.replace(/[.*+\-?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
 }
+
+
 
 
