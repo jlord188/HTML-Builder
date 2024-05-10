@@ -1190,7 +1190,6 @@ function getBaseUrl() {
 
 function loadImageLibrary() {
     const baseUrl = getBaseUrl(); // Get the dynamically determined base URL
-    console.log("Base URL for requests:", baseUrl); // Useful for debugging
     fetch(`${baseUrl}/images`)
     .then(response => response.json())
     .then(images => {
@@ -1199,7 +1198,7 @@ function loadImageLibrary() {
         images.forEach(image => {
             const imgDiv = document.createElement('div');
             imgDiv.className = 'image-container';
-            const completeImageUrl = `${baseUrl}${image.url.startsWith('/') ? '' : '/'}${image.url}`;
+            const completeImageUrl = `${baseUrl}${image.url}`;
             imgDiv.innerHTML = `
                 <img src="${completeImageUrl}">
                 <i class="fas fa-copy copy-icon" onclick="copyImageUrlToClipboard('${completeImageUrl}')"></i>
@@ -1209,6 +1208,7 @@ function loadImageLibrary() {
     })
     .catch(error => console.error('Failed to load images:', error));
 }
+
 
 function copyImageUrlToClipboard(url) {
     navigator.clipboard.writeText(url).then(() => {
