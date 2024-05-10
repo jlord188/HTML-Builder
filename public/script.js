@@ -1281,9 +1281,11 @@ async function downloadPackagedHtml() {
 
 
 async function downloadImage(imageUrl) {
+    console.log(`Attempting to fetch image from: ${imageUrl}`);
     const response = await fetch(imageUrl);
     if (!response.ok) {
-        throw new Error(`Failed to fetch image: ${response.statusText}`);
+        console.error(`Failed to fetch image: ${response.statusText}`);
+        return null; // Return null to handle this gracefully later
     }
     const blob = await response.blob();
     const filename = imageUrl.split('/').pop();
@@ -1294,6 +1296,7 @@ async function downloadImage(imageUrl) {
 function replaceImageUrls(htmlContent, oldUrls, newUrls) {
     let updatedHtmlContent = htmlContent;
     oldUrls.forEach((oldUrl, index) => {
+        console.log(`Replacing ${oldUrl} with ${newUrls[index]}`);
         const imgSrcRegex = new RegExp(escapeRegExp(oldUrl), 'g');
         updatedHtmlContent = updatedHtmlContent.replace(imgSrcRegex, newUrls[index]);
     });
