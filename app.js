@@ -5,12 +5,15 @@ const multer = require('multer');
 const app = express();
 const server = http.createServer(app);
 const io = socketIo(server);
-
 const cors = require('cors');
+
 const port = process.env.PORT || 5000;
+
 const fs = require('fs');
 const path = require('path');
+
 app.use('/images', cors());
+
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
       cb(null, 'uploads/')
@@ -147,5 +150,3 @@ io.on('connection', (socket) => {
 server.listen(port, () => {
     console.log(`Server listening on http://localhost:${port}`);
 });
-
-
