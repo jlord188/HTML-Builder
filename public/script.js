@@ -1179,6 +1179,9 @@ function uploadImage() {
     });
 }
 
+function triggerUpload() {
+    document.getElementById('imageUploadInput').click(); // Assuming you have an input element with this id
+}
 
 function loadImageLibrary() {
     fetch('/images')
