@@ -1289,10 +1289,16 @@ async function downloadImage(imageUrl) {
 function replaceImageUrls(htmlContent, oldUrls, newUrls) {
     let updatedHtmlContent = htmlContent;
     oldUrls.forEach((oldUrl, index) => {
-        updatedHtmlContent = updatedHtmlContent.replace(new RegExp(oldUrl, 'g'), newUrls[index]);
+        const imgSrcRegex = new RegExp(escapeRegExp(oldUrl), 'g');
+        updatedHtmlContent = updatedHtmlContent.replace(imgSrcRegex, newUrls[index]);
     });
     return updatedHtmlContent;
 }
+
+function escapeRegExp(string) {
+    return string.replace(/[.*+\-?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
+}
+
 
 
 
