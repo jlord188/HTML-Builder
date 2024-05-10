@@ -131,7 +131,8 @@ app.get('/download', (req, res) => {
         zlib: { level: 9 } // Maximum compression
     });
 
-    // Pipe the zip to the response
+    // Set proper headers for the zip file
+    res.attachment('packaged-html.zip');
     zip.pipe(res);
 
     // Append index.html to the zip
@@ -146,7 +147,7 @@ app.get('/download', (req, res) => {
         }
 
         files.forEach(file => {
-            zip.file(path.join(uploadsFolderPath, file), { name: `uploads/${file}` });
+            zip.append(fs.createReadStream(path.join(uploadsFolderPath, file)), { name: `uploads/${file}` });
         });
 
         // Finalize the zip and send the response
