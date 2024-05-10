@@ -1223,22 +1223,58 @@ function copyImageUrlToClipboard(url) {
     });
 }
 
-document.getElementById('downloadButton').addEventListener('click', async () => {
+async function downloadPackagedHtml() {
+    const previewArea = document.getElementById('components-preview');
+    const htmlContent = previewArea.innerHTML;
+
+    // Collect image URLs from HTML content
+    const imageUrls = Array.from(previewArea.querySelectorAll('img')).map(img => img.src);
+
     try {
-        const response = await fetch('/download');
-        const blob = await response.blob();
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'packaged-html.zip';
-        document.body.appendChild(a);
-        a.click();
-        window.URL.revokeObjectURL(url);
-        document.body.removeChild(a);
+        // Download images and store them in a temporary directory
+        const imageFiles = await Promise.all(imageUrls.map(downloadImage));
+
+        // Replace image URLs in HTML content with local file paths
+        const localImageUrls = imageFiles.map(file => `./${file.name}`);
+        const updatedHtmlContent = replaceImageUrls(htmlContent, imageUrls, localImageUrls);
+
+        // Create index.html file
+        const indexHtmlBlob = new Blob([updatedHtmlContent], { type: 'text/html' });
+        const indexHtmlFile = new File([indexHtmlBlob], 'index.html', { type: 'text/html' });
+
+        // Create a zip file containing index.html and images
+        const zip = new JSZip();
+        zip.file('index.html', indexHtmlFile);
+        imageFiles.forEach(file => {
+            zip.file(file.name, file);
+        });
+
+        // Trigger download of the zip file
+        const zipBlob = await zip.generateAsync({ type: 'blob' });
+        const zipUrl = URL.createObjectURL(zipBlob);
+        const link = document.createElement('a');
+        link.href = zipUrl;
+        link.download = 'packaged-html.zip';
+        link.click();
     } catch (error) {
-        console.error('Download failed:', error);
+        console.error('Failed to package HTML:', error);
     }
-});
+}
+
+async function downloadImage(imageUrl) {
+    const response = await fetch(imageUrl);
+    const blob = await response.blob();
+    return new File([blob], imageUrl.split('/').pop());
+}
+
+function replaceImageUrls(htmlContent, oldUrls, newUrls) {
+    let updatedHtmlContent = htmlContent;
+    oldUrls.forEach((oldUrl, index) => {
+        updatedHtmlContent = updatedHtmlContent.replace(new RegExp(oldUrl, 'g'), newUrls[index]);
+    });
+    return updatedHtmlContent;
+}
+
 
 
 
