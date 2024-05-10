@@ -36,10 +36,11 @@ app.get('/images', (req, res) => {
             console.error('Failed to list images:', err);
             return res.status(500).send('Failed to list images');
         }
-        const imageUrls = files.map(file => `/uploads/${file}`);
+        const imageUrls = files.map(file => ({ url: `/uploads/${file}` }));
         res.json(imageUrls);
     });
 });
+
 
 
 
