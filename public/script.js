@@ -1179,6 +1179,51 @@ function uploadImage() {
     });
 }
 
+function triggerUpload() {
+    document.getElementById('imageUploadInput').click(); // Assuming you have an input element with this id
+}
+
+function getBaseUrl() {
+    // This will dynamically fetch the current protocol and hostname from the window location.
+    return `${window.location.protocol}//${window.location.hostname}${window.location.port ? `:${window.location.port}` : ''}`;
+}
+
+function loadImageLibrary() {
+    const baseUrl = getBaseUrl(); // Get the dynamically determined base URL
+    fetch(`${baseUrl}/images`)
+    .then(response => response.json())
+    .then(images => {
+        const previewArea = document.getElementById('imagePreviewArea');
+        previewArea.innerHTML = ''; // Clear existing previews
+        images.forEach(image => {
+            const imgDiv = document.createElement('div');
+            imgDiv.className = 'image-container';
+            const completeImageUrl = `${baseUrl}${image.url}`;
+            imgDiv.innerHTML = `
+                <img src="${completeImageUrl}">
+                <i class="fas fa-copy copy-icon" onclick="copyImageUrlToClipboard('${completeImageUrl}')"></i>
+            `;
+            previewArea.appendChild(imgDiv);
+        });
+    })
+    .catch(error => console.error('Failed to load images:', error));
+}
+
+
+function copyImageUrlToClipboard(url) {
+    if (!navigator.clipboard || !navigator.clipboard.writeText) {
+        alert('Clipboard not supported or page needs to be served over HTTPS');
+        return;
+    }
+    navigator.clipboard.writeText(url).then(() => {
+        alert('Image URL copied to clipboard');
+    }).catch(err => {
+        console.error('Failed to copy URL:', err);
+        alert('Failed to copy URL');
+    });
+}
+
+// Assuming you have a download button with id "downloadButton"
 const downloadButton = document.getElementById('downloadButton');
 
 // Add event listener to the download button
@@ -1284,7 +1329,3 @@ function replaceImageUrls(htmlContent, oldUrls, newUrls) {
 function escapeRegExp(string) {
     return string.replace(/[.*+\-?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
 }
-
-
-
-
