@@ -1183,8 +1183,14 @@ function triggerUpload() {
     document.getElementById('imageUploadInput').click(); // Assuming you have an input element with this id
 }
 
+function getBaseUrl() {
+    // This will dynamically fetch the current protocol and hostname from the window location.
+    return `${window.location.protocol}//${window.location.hostname}${window.location.port ? `:${window.location.port}` : ''}`;
+}
+
 function loadImageLibrary() {
     const baseUrl = getBaseUrl(); // Get the dynamically determined base URL
+    console.log("Base URL for requests:", baseUrl); // Useful for debugging
     fetch(`${baseUrl}/images`)
     .then(response => response.json())
     .then(images => {
@@ -1193,9 +1199,10 @@ function loadImageLibrary() {
         images.forEach(image => {
             const imgDiv = document.createElement('div');
             imgDiv.className = 'image-container';
+            const completeImageUrl = `${baseUrl}${image.url.startsWith('/') ? '' : '/'}${image.url}`;
             imgDiv.innerHTML = `
-                <img src="${image.url}">
-                <i class="fas fa-copy copy-icon" onclick="copyImageUrlToClipboard('${image.url}')"></i>
+                <img src="${completeImageUrl}">
+                <i class="fas fa-copy copy-icon" onclick="copyImageUrlToClipboard('${completeImageUrl}')"></i>
             `;
             previewArea.appendChild(imgDiv);
         });
@@ -1213,13 +1220,5 @@ function copyImageUrlToClipboard(url) {
     });
 }
 
-
-// This function constructs the base URL from the window location
-function getBaseUrl() {
-    return `${window.location.protocol}//${window.location.hostname}${window.location.port ? `:${window.location.port}` : ''}`;
-}
-
-// Use this base URL for making requests or constructing links
-const baseUrl = getBaseUrl();
 
 
