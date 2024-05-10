@@ -1243,23 +1243,28 @@ async function downloadPackagedHtml() {
         contentEditable.removeAttribute('contenteditable');
     });
 
-    // This line might be problematic as it removes the cloned preview area itself if it has the ID 'components-preview'
-    // Adjust if necessary, depending on the structure of your HTML
-    clonePreviewArea.querySelectorAll('#components-preview').forEach(element => {
-        element.parentNode.removeChild(element);
-    });
-
+    // Collect image URLs from HTML content
     const imageUrls = Array.from(clonePreviewArea.querySelectorAll('img')).map(img => {
-    console.log("Collected image URL:", img.src);
-    return img.src;
+        console.log("Collected image URL:", img.src);  // Ensure URLs are collected
+        return img.src;
     });
-
 
     try {
         // Download images and store them in a temporary directory
-        const imageFiles = await Promise.all(imageUrls.map(downloadImage));
+        const imageFiles = await Promise.all(imageUrls.map(async imageUrl => {
+            console.log(`Attempting to fetch image from: ${imageUrl}`);
+            const response = await fetch(imageUrl);
+            if (!response.ok) {
+                console.error(`Failed to fetch image: ${response.statusText}`);
+                return null; // Handle failed download gracefully
+            }
+            const blob = await response.blob();
+            const filename = imageUrl.split('/').pop();
+            console.log(`Downloaded image ${filename} with size ${blob.size}`);
+            return new File([blob], filename, { type: blob.type });
+        }));
 
-        // Filter out any failed downloads (null values)
+        // Filter out any failed downloads
         const successfulImageFiles = imageFiles.filter(file => file !== null);
         const successfulImageUrls = successfulImageFiles.map(file => `images/${file.name}`);
 
@@ -1269,8 +1274,6 @@ async function downloadPackagedHtml() {
         // Create a zip file containing index.html and images
         const zip = new JSZip();
         zip.file('index.html', updatedHtmlContent);
-        
-        // Create a subfolder for images
         const imgFolder = zip.folder('images');
         successfulImageFiles.forEach(file => {
             imgFolder.file(file.name, file);
@@ -1288,49 +1291,18 @@ async function downloadPackagedHtml() {
     }
 }
 
-
-function triggerDownload(blob) {
-    const zipUrl = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = zipUrl;
-    link.download = 'packaged-html.zip';
-    link.click();
-}
-
-
-async function downloadImage(imageUrl) {
-    console.log(`Attempting to fetch image from: ${imageUrl}`);
-    const response = await fetch(imageUrl);
-    if (!response.ok) {
-        console.error(`Failed to fetch image: ${response.statusText}`);
-        return null; // Return null to handle this gracefully later
-    }
-    const blob = await response.blob();
-    const filename = imageUrl.split('/').pop();
-    console.log(`Downloaded image ${filename} with size ${blob.size} and type ${blob.type}`);
-    return new File([blob], filename, { type: blob.type });
-}
-
-
 function replaceImageUrls(htmlContent, oldUrls, newUrls) {
     let updatedHtmlContent = htmlContent;
     oldUrls.forEach((oldUrl, index) => {
-        console.log(`Attempting to replace URL: ${oldUrl} with ${newUrls[index]}`);
+        console.log(`Replacing ${oldUrl} with ${newUrls[index]}`);
         const imgSrcRegex = new RegExp(escapeRegExp(oldUrl), 'g');
         updatedHtmlContent = updatedHtmlContent.replace(imgSrcRegex, newUrls[index]);
-        console.log(`Updated segment: ${updatedHtmlContent.substring(0, 200)}`); // Log part of the content
     });
-    console.log("Final Updated HTML Content: ", updatedHtmlContent.substring(0, 500)); // Log part of the final content
     return updatedHtmlContent;
 }
 
-
-
 function escapeRegExp(string) {
-    return string.replace(/[.*+\-?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
+    return string.replace(/[.*+\-?^${}()|[\]\\]/g, '\\$&');
 }
-
-
-
 
 
