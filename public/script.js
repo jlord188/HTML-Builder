@@ -1149,18 +1149,28 @@ function toggleImageLibrary() {
 function uploadImage() {
     const formData = new FormData();
     const imageInput = document.getElementById('imageUploadInput');
-    if (imageInput.files.length === 0) return;
+    if (imageInput.files.length === 0) {
+        console.log('No file selected');
+        return;
+    }
     formData.append('image', imageInput.files[0]);
 
     fetch('/upload', {
         method: 'POST',
         body: formData,
     })
-    .then(response => response.json())
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
     .then(data => {
         if (data.url) {
             alert('Image uploaded successfully.');
             loadImageLibrary(); // Refresh the image library
+        } else {
+            throw new Error('URL not found in response');
         }
     })
     .catch(error => {
@@ -1168,6 +1178,7 @@ function uploadImage() {
         alert('Failed to upload image.');
     });
 }
+
 
 function loadImageLibrary() {
     fetch('/images')
@@ -1189,12 +1200,17 @@ function loadImageLibrary() {
 }
 
 function copyImageUrlToClipboard(url) {
+    if (!navigator.clipboard) {
+        alert('Clipboard not supported');
+        return;
+    }
     navigator.clipboard.writeText(url).then(() => {
         console.log('Image URL copied to clipboard');
         alert('Image URL copied to clipboard');
     }).catch(err => {
         console.error('Failed to copy URL:', err);
-        alert('Failed to copy URL');
+        alert('Failed to copy URL: ' + err.message);
     });
 }
+
 
