@@ -1249,8 +1249,11 @@ async function downloadPackagedHtml() {
         element.parentNode.removeChild(element);
     });
 
-    // Collect image URLs from HTML content
-    const imageUrls = Array.from(clonePreviewArea.querySelectorAll('img')).map(img => img.src);
+    const imageUrls = Array.from(clonePreviewArea.querySelectorAll('img')).map(img => {
+    console.log("Collected image URL:", img.src);
+    return img.src;
+    });
+
 
     try {
         // Download images and store them in a temporary directory
@@ -1304,20 +1307,23 @@ async function downloadImage(imageUrl) {
     }
     const blob = await response.blob();
     const filename = imageUrl.split('/').pop();
-    console.log(`Downloaded image ${filename} with size ${blob.size}`);
+    console.log(`Downloaded image ${filename} with size ${blob.size} and type ${blob.type}`);
     return new File([blob], filename, { type: blob.type });
 }
+
 
 function replaceImageUrls(htmlContent, oldUrls, newUrls) {
     let updatedHtmlContent = htmlContent;
     oldUrls.forEach((oldUrl, index) => {
-        console.log(`Replacing ${oldUrl} with ${newUrls[index]}`);
+        console.log(`Attempting to replace URL: ${oldUrl} with ${newUrls[index]}`);
         const imgSrcRegex = new RegExp(escapeRegExp(oldUrl), 'g');
         updatedHtmlContent = updatedHtmlContent.replace(imgSrcRegex, newUrls[index]);
+        console.log(`Updated segment: ${updatedHtmlContent.substring(0, 200)}`); // Log part of the content
     });
-    console.log("Updated HTML Content: ", updatedHtmlContent);
+    console.log("Final Updated HTML Content: ", updatedHtmlContent.substring(0, 500)); // Log part of the final content
     return updatedHtmlContent;
 }
+
 
 
 function escapeRegExp(string) {
