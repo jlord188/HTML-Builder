@@ -41,9 +41,6 @@ app.get('/images', (req, res) => {
     });
 });
 
-app.use('/uploads', express.static('uploads')); // Serve images from the uploads directory
-  
-
 
 // Ensure express can parse JSON bodies
 app.use(express.json());
