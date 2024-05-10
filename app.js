@@ -6,6 +6,7 @@ const app = express();
 const server = http.createServer(app);
 const io = socketIo(server);
 const cors = require('cors');
+const archiver = require('archiver');
 
 const port = process.env.PORT || 5000;
 
@@ -121,6 +122,37 @@ function updateComponentRemoveImage(componentId, columnIndex) {
     }
 }
 
+app.get('/download', (req, res) => {
+    const indexHtmlPath = path.join(__dirname, 'index.html');
+    const uploadsFolderPath = path.join(__dirname, 'uploads');
+
+    // Create a zip file
+    const zip = archiver('zip', {
+        zlib: { level: 9 } // Maximum compression
+    });
+
+    // Pipe the zip to the response
+    zip.pipe(res);
+
+    // Append index.html to the zip
+    zip.append(fs.createReadStream(indexHtmlPath), { name: 'index.html' });
+
+    // Append each image in the uploads folder to the zip
+    fs.readdir(uploadsFolderPath, (err, files) => {
+        if (err) {
+            console.error('Failed to list images:', err);
+            res.status(500).send('Failed to list images');
+            return;
+        }
+
+        files.forEach(file => {
+            zip.file(path.join(uploadsFolderPath, file), { name: `uploads/${file}` });
+        });
+
+        // Finalize the zip and send the response
+        zip.finalize();
+    });
+});
 
 io.on('connection', (socket) => {
     console.log('New user connected');
