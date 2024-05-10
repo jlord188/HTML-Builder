@@ -1223,6 +1223,14 @@ function copyImageUrlToClipboard(url) {
     });
 }
 
+// Assuming you have a download button with id "downloadButton"
+const downloadButton = document.getElementById('downloadButton');
+
+// Add event listener to the download button
+downloadButton.addEventListener('click', async () => {
+    await downloadPackagedHtml();
+});
+
 async function downloadPackagedHtml() {
     const previewArea = document.getElementById('components-preview');
     const htmlContent = previewArea.innerHTML;
