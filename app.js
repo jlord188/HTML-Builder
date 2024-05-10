@@ -6,7 +6,7 @@ const app = express();
 const server = http.createServer(app);
 const io = socketIo(server);
 
-const port = process.env.PORT || 4000;
+const port = process.env.PORT || 5000;
 
 const fs = require('fs');
 const path = require('path');
