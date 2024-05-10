@@ -1235,48 +1235,47 @@ async function downloadPackagedHtml() {
     const previewArea = document.getElementById('components-preview');
     const clonePreviewArea = previewArea.cloneNode(true);
 
-    // Remove unnecessary elements similar to copyHtml function
-    clonePreviewArea.querySelectorAll('.up-btn-container, .down-btn-container, .delete-btn, .delete-embed-btn, .edit-embed-btn').forEach(element => {
-        element.parentNode.removeChild(element);
-    });
-    clonePreviewArea.querySelectorAll('[contenteditable="true"]').forEach(contentEditable => {
-        contentEditable.removeAttribute('contenteditable');
-    });
-    clonePreviewArea.querySelectorAll('#components-preview').forEach(element => {
-        element.parentNode.removeChild(element);
-    });
+    // Cleanup operations (removal of unwanted elements)
+    removeUnnecessaryElements(clonePreviewArea);
 
-    // Collect image URLs from HTML content
+    // Collect image URLs
     const imageUrls = Array.from(clonePreviewArea.querySelectorAll('img')).map(img => img.src);
 
     try {
-        // Download images and store them in a temporary directory
-        const imageFiles = await Promise.all(imageUrls.map(downloadImage));
+        // Download all images and wait for this operation to complete
+        const imageFiles = await Promise.all(imageUrls.map(url => downloadImage(url).catch(e => {
+            console.error(`Failed to download image ${url}: ${e}`);
+            return null; // Return null to handle errors gracefully
+        })));
 
-        // Replace image URLs in HTML content with local file paths
-        const localImageUrls = imageFiles.map(file => `images/${file.name}`);
-        const updatedHtmlContent = replaceImageUrls(clonePreviewArea.innerHTML, imageUrls, localImageUrls);
+        // Filter out any nulls from failed downloads and prepare paths
+        const validImageFiles = imageFiles.filter(file => file !== null);
+        const validImageUrls = validImageFiles.map(file => `images/${file.name}`);
 
-        // Create a zip file containing index.html and images
+        // Replace URLs in HTML with local paths, ensure this only uses successfully downloaded images
+        const updatedHtmlContent = replaceImageUrls(clonePreviewArea.innerHTML, imageUrls.filter((url, index) => imageFiles[index] !== null), validImageUrls);
+
+        // Create and populate the zip file
         const zip = new JSZip();
         zip.file('index.html', updatedHtmlContent);
-        
-        // Create a subfolder for images
         const imgFolder = zip.folder('images');
-        imageFiles.forEach(file => {
-            imgFolder.file(file.name, file);
-        });
+        validImageFiles.forEach(file => imgFolder.file(file.name, file));
 
-        // Trigger download of the zip file
+        // Generate the zip file and trigger download
         const zipBlob = await zip.generateAsync({ type: 'blob' });
-        const zipUrl = URL.createObjectURL(zipBlob);
-        const link = document.createElement('a');
-        link.href = zipUrl;
-        link.download = 'packaged-html.zip';
-        link.click();
+        triggerDownload(zipBlob);
+
     } catch (error) {
         console.error('Failed to package HTML:', error);
     }
+}
+
+function triggerDownload(blob) {
+    const zipUrl = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = zipUrl;
+    link.download = 'packaged-html.zip';
+    link.click();
 }
 
 
