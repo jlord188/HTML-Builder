@@ -145,13 +145,7 @@ io.on('connection', (socket) => {
 });
 
 server.listen(port, () => {
-    console.log(`Server listening on https://localhost:${port}`);
+    console.log(`Server listening on http://localhost:${port}`);
 });
 
-function requireHTTPS(req, res, next) {
-  // The 'x-forwarded-proto' check is for Heroku
-  if (!req.secure && req.get('x-forwarded-proto') !== 'https' && process.env.NODE_ENV !== "development") {
-    return res.redirect('https://' + req.get('host') + req.url);
-  }
-  next();
-}
+
