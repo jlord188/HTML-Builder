@@ -1190,7 +1190,7 @@ function getBaseUrl() {
 
 function loadImageLibrary() {
     const baseUrl = getBaseUrl(); // Get the dynamically determined base URL
-    fetch(${baseUrl}/images)
+    fetch(`${baseUrl}/images`)
     .then(response => response.json())
     .then(images => {
         const previewArea = document.getElementById('imagePreviewArea');
@@ -1198,7 +1198,7 @@ function loadImageLibrary() {
         images.forEach(image => {
             const imgDiv = document.createElement('div');
             imgDiv.className = 'image-container';
-            const completeImageUrl = ${baseUrl}${image.url};
+            const completeImageUrl = `${baseUrl}${image.url}`;
             imgDiv.innerHTML = `
                 <img src="${completeImageUrl}">
                 <i class="fas fa-copy copy-icon" onclick="copyImageUrlToClipboard('${completeImageUrl}')"></i>
