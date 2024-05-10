@@ -1233,10 +1233,21 @@ downloadButton.addEventListener('click', async () => {
 
 async function downloadPackagedHtml() {
     const previewArea = document.getElementById('components-preview');
-    const htmlContent = previewArea.innerHTML;
+    const clonePreviewArea = previewArea.cloneNode(true);
+
+    // Remove unnecessary elements similar to copyHtml function
+    clonePreviewArea.querySelectorAll('.up-btn-container, .down-btn-container, .delete-btn, .delete-embed-btn, .edit-embed-btn').forEach(element => {
+        element.parentNode.removeChild(element);
+    });
+    clonePreviewArea.querySelectorAll('[contenteditable="true"]').forEach(contentEditable => {
+        contentEditable.removeAttribute('contenteditable');
+    });
+    clonePreviewArea.querySelectorAll('#components-preview').forEach(element => {
+        element.parentNode.removeChild(element);
+    });
 
     // Collect image URLs from HTML content
-    const imageUrls = Array.from(previewArea.querySelectorAll('img')).map(img => img.src);
+    const imageUrls = Array.from(clonePreviewArea.querySelectorAll('img')).map(img => img.src);
 
     try {
         // Download images and store them in a temporary directory
@@ -1244,7 +1255,7 @@ async function downloadPackagedHtml() {
 
         // Replace image URLs in HTML content with local file paths
         const localImageUrls = imageFiles.map(file => `./${file.name}`);
-        const updatedHtmlContent = replaceImageUrls(htmlContent, imageUrls, localImageUrls);
+        const updatedHtmlContent = replaceImageUrls(clonePreviewArea.innerHTML, imageUrls, localImageUrls);
 
         // Create index.html file
         const indexHtmlBlob = new Blob([updatedHtmlContent], { type: 'text/html' });
