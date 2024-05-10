@@ -1184,7 +1184,8 @@ function triggerUpload() {
 }
 
 function loadImageLibrary() {
-    fetch('/images')
+    const baseUrl = getBaseUrl(); // Get the dynamically determined base URL
+    fetch(`${baseUrl}/images`)
     .then(response => response.json())
     .then(images => {
         const previewArea = document.getElementById('imagePreviewArea');
@@ -1203,17 +1204,22 @@ function loadImageLibrary() {
 }
 
 function copyImageUrlToClipboard(url) {
-    if (!navigator.clipboard) {
-        alert('Clipboard not supported');
-        return;
-    }
     navigator.clipboard.writeText(url).then(() => {
         console.log('Image URL copied to clipboard');
         alert('Image URL copied to clipboard');
     }).catch(err => {
         console.error('Failed to copy URL:', err);
-        alert('Failed to copy URL: ' + err.message);
+        alert('Failed to copy URL');
     });
 }
+
+
+// This function constructs the base URL from the window location
+function getBaseUrl() {
+    return `${window.location.protocol}//${window.location.hostname}${window.location.port ? `:${window.location.port}` : ''}`;
+}
+
+// Use this base URL for making requests or constructing links
+const baseUrl = getBaseUrl();
 
 
