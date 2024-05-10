@@ -1282,8 +1282,13 @@ async function downloadPackagedHtml() {
 
 async function downloadImage(imageUrl) {
     const response = await fetch(imageUrl);
+    if (!response.ok) {
+        throw new Error(`Failed to fetch image: ${response.statusText}`);
+    }
     const blob = await response.blob();
-    return new File([blob], imageUrl.split('/').pop());
+    const filename = imageUrl.split('/').pop();
+    console.log(`Downloaded image ${filename} with size ${blob.size}`);
+    return new File([blob], filename, { type: blob.type });
 }
 
 function replaceImageUrls(htmlContent, oldUrls, newUrls) {
@@ -1292,8 +1297,10 @@ function replaceImageUrls(htmlContent, oldUrls, newUrls) {
         const imgSrcRegex = new RegExp(escapeRegExp(oldUrl), 'g');
         updatedHtmlContent = updatedHtmlContent.replace(imgSrcRegex, newUrls[index]);
     });
+    console.log("Updated HTML Content: ", updatedHtmlContent);
     return updatedHtmlContent;
 }
+
 
 function escapeRegExp(string) {
     return string.replace(/[.*+\-?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
