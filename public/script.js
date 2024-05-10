@@ -1254,18 +1254,17 @@ async function downloadPackagedHtml() {
         const imageFiles = await Promise.all(imageUrls.map(downloadImage));
 
         // Replace image URLs in HTML content with local file paths
-        const localImageUrls = imageFiles.map(file => `./${file.name}`);
+        const localImageUrls = imageFiles.map(file => `images/${file.name}`);
         const updatedHtmlContent = replaceImageUrls(clonePreviewArea.innerHTML, imageUrls, localImageUrls);
-
-        // Create index.html file
-        const indexHtmlBlob = new Blob([updatedHtmlContent], { type: 'text/html' });
-        const indexHtmlFile = new File([indexHtmlBlob], 'index.html', { type: 'text/html' });
 
         // Create a zip file containing index.html and images
         const zip = new JSZip();
-        zip.file('index.html', indexHtmlFile);
+        zip.file('index.html', updatedHtmlContent);
+        
+        // Create a subfolder for images
+        const imgFolder = zip.folder('images');
         imageFiles.forEach(file => {
-            zip.file(file.name, file);
+            imgFolder.file(file.name, file);
         });
 
         // Trigger download of the zip file
@@ -1279,6 +1278,7 @@ async function downloadPackagedHtml() {
         console.error('Failed to package HTML:', error);
     }
 }
+
 
 async function downloadImage(imageUrl) {
     const response = await fetch(imageUrl);
