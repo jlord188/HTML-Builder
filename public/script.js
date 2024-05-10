@@ -1223,6 +1223,22 @@ function copyImageUrlToClipboard(url) {
     });
 }
 
+document.getElementById('downloadButton').addEventListener('click', async () => {
+    try {
+        const response = await fetch('/download');
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'packaged-html.zip';
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+        document.body.removeChild(a);
+    } catch (error) {
+        console.error('Download failed:', error);
+    }
+});
 
 
 
