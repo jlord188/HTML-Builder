@@ -31,15 +31,17 @@ app.post('/upload', upload.single('image'), (req, res) => {
 
 app.get('/images', (req, res) => {
     const imageDir = path.join(__dirname, 'uploads');
+    const baseUrl = process.env.BASE_URL || 'http://localhost:5000'; // Default to localhost if not set
     fs.readdir(imageDir, (err, files) => {
         if (err) {
             console.error('Failed to list images:', err);
             return res.status(500).send('Failed to list images');
         }
-        const imageUrls = files.map(file => ({ url: `/uploads/${file}` }));
+        const imageUrls = files.map(file => ({ url: `${baseUrl}/uploads/${file}` }));
         res.json(imageUrls);
     });
 });
+
 
 
 
