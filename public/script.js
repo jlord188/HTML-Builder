@@ -1211,14 +1211,18 @@ function loadImageLibrary() {
 
 
 function copyImageUrlToClipboard(url) {
+    if (!navigator.clipboard || !navigator.clipboard.writeText) {
+        alert('Clipboard not supported or page needs to be served over HTTPS');
+        return;
+    }
     navigator.clipboard.writeText(url).then(() => {
-        console.log('Image URL copied to clipboard');
         alert('Image URL copied to clipboard');
     }).catch(err => {
         console.error('Failed to copy URL:', err);
         alert('Failed to copy URL');
     });
 }
+
 
 
 
