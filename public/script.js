@@ -199,8 +199,11 @@ socket.on('component added', (data) => {
                             <button onclick="changeFontColor('${data.id}')" class="font-color-btn">
                             <i class="fas fa-paint-brush"></i>
                             </button>
-                            <button onclick="changeFontSize('${data.id}')" class="font-size-btn">
-                            <i class="fas fa-text-height"></i>
+                            <button onclick="changeHeaderFontSize('${data.id}')" class="font-size-h">
+                            <i class="fas fa-text-height"></i> 
+                            </button>
+                            <button onclick="changeParagraphFontSize('${data.id}')" class="font-size-p">
+                            <i class="fas fa-text-width"></i> 
                             </button>
                             <button onclick="embedVideo()" class="embed-video-btn">
                             <i class="fas fa-video"></i>
