@@ -893,7 +893,12 @@ function changeFontColor(componentId) {
 function changeFontSize(componentId) {
     const newSize = prompt("Enter font size:");
     if (newSize) {
-        document.execCommand('fontSize', false, newSize);
+        const component = document.getElementById(`component-${componentId}`);
+        const h1Element = component.querySelector('h1');
+        const pElement = component.querySelector('p');
+
+        h1Element.style.fontSize = newSize + 'px';
+        pElement.style.fontSize = newSize + 'px';
     }
 }
 
