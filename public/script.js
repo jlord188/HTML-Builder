@@ -193,6 +193,12 @@ socket.on('component added', (data) => {
                             <button onclick="setTextAlignment('${data.id}', 'right')"class="right-btn">
                             <i class="fas fa-align-right"></i>
                             </button>
+                            <button onclick="changeFont('${data.id}')" class="font-btn">
+                            <i class="fas fa-font"></i>
+                            </button>
+                            <button onclick="changeFontColor('${data.id}')" class="font-color-btn">
+                            <i class="fas fa-paint-brush"></i>
+                            </button>
                             <button onclick="embedVideo()" class="embed-video-btn">
                             <i class="fas fa-video"></i>
                             </button>
@@ -852,6 +858,30 @@ window.onclick = function(event) {
         saveModal.style.display = "none";
     } else if (event.target === loadModal) {
         loadModal.style.display = "none";
+    }
+}
+
+function changeFont(componentId) {
+    const newFont = prompt("Enter font family:");
+    if (newFont) {
+        const component = document.getElementById(`component-${componentId}`);
+        const h1Element = component.querySelector('h1');
+        const pElement = component.querySelector('p');
+
+        h1Element.style.fontFamily = newFont;
+        pElement.style.fontFamily = newFont;
+    }
+}
+
+function changeFontColor(componentId) {
+    const newColor = prompt("Enter font color (hex or name):");
+    if (newColor) {
+        const component = document.getElementById(`component-${componentId}`);
+        const h1Element = component.querySelector('h1');
+        const pElement = component.querySelector('p');
+
+        h1Element.style.color = newColor;
+        pElement.style.color = newColor;
     }
 }
 
