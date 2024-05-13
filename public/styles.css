@@ -201,17 +201,24 @@ hr {
     width: 10px;
 }
 
-.embed-video-btn {
+.font-size-btn {
     position: absolute; 
     bottom: 10px; 
     left: 480px; 
     width: 10px;
 }
 
-.embed-image-btn {
+.embed-video-btn {
     position: absolute; 
     bottom: 10px; 
     left: 520px; 
+    width: 10px;
+}
+
+.embed-image-btn {
+    position: absolute; 
+    bottom: 10px; 
+    left: 560px; 
     width: 10px;
 }
 
