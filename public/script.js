@@ -1283,8 +1283,18 @@ async function downloadPackagedHtml() {
         element.parentNode.removeChild(element);
     });
 
-    // Collect image URLs from HTML content
+    // Collect image URLs from HTML content, including background images
     const imageUrls = Array.from(clonePreviewArea.querySelectorAll('img')).map(img => img.src);
+    // Collect background image URLs from inline styles
+    Array.from(clonePreviewArea.querySelectorAll('*')).forEach(element => {
+        const backgroundImage = getComputedStyle(element).backgroundImage;
+        if (backgroundImage && backgroundImage !== 'none') {
+            const backgroundImageUrl = extractBackgroundImageUrl(backgroundImage);
+            if (backgroundImageUrl) {
+                imageUrls.push(backgroundImageUrl);
+            }
+        }
+    });
 
     try {
         // Download images and store them in a temporary directory
@@ -1309,15 +1319,21 @@ async function downloadPackagedHtml() {
 
         // Trigger download of the zip file
         const zipBlob = await zip.generateAsync({ type: 'blob' });
-        const zipUrl = URL.createObjectURL(zipBlob);
-        const link = document.createElement('a');
-        link.href = zipUrl;
-        link.download = 'packaged-html.zip';
-        link.click();
+        triggerDownload(zipBlob);
     } catch (error) {
         console.error('Failed to package HTML:', error);
     }
 }
+
+function extractBackgroundImageUrl(backgroundImage) {
+    // Regular expression to extract the URL from background image CSS property
+    const urlMatch = backgroundImage.match(/url\(['"]?([^'"]+?)['"]?\)/);
+    if (urlMatch && urlMatch.length > 1) {
+        return urlMatch[1];
+    }
+    return null;
+}
+
 
 
 function triggerDownload(blob) {
