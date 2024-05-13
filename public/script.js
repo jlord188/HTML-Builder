@@ -1374,11 +1374,21 @@ async function downloadImage(imageUrl) {
 
 function replaceImageUrls(htmlContent, oldUrls, newUrls) {
     let updatedHtmlContent = htmlContent;
+
+    // Replace regular image URLs
     oldUrls.forEach((oldUrl, index) => {
         console.log(`Replacing ${oldUrl} with ${newUrls[index]}`);
         const imgSrcRegex = new RegExp(escapeRegExp(oldUrl), 'g');
         updatedHtmlContent = updatedHtmlContent.replace(imgSrcRegex, newUrls[index]);
     });
+
+    // Replace background image URLs
+    oldUrls.forEach((oldUrl, index) => {
+        console.log(`Replacing background image ${oldUrl} with ${newUrls[index]}`);
+        const bgImageRegex = new RegExp(`url\\(['"]?${escapeRegExp(oldUrl)}['"]?\\)`, 'g');
+        updatedHtmlContent = updatedHtmlContent.replace(bgImageRegex, `url('${newUrls[index]}')`);
+    });
+
     console.log("Updated HTML Content: ", updatedHtmlContent);
     return updatedHtmlContent;
 }
