@@ -1235,37 +1235,11 @@ function loadImageLibrary() {
             imgDiv.innerHTML = `
                 <img src="${completeImageUrl}">
                 <i class="fas fa-copy copy-icon" onclick="copyImageUrlToClipboard('${completeImageUrl}')"></i>
-                <i class="fas fa-trash-alt delete-icon" onclick="deleteImage('${image.id}')"></i>
             `;
             previewArea.appendChild(imgDiv);
         });
     })
     .catch(error => console.error('Failed to load images:', error));
-}
-
-function deleteImage(imageId) {
-    if (!confirm('Are you sure you want to delete this image?')) {
-        return;
-    }
-
-    const baseUrl = getBaseUrl();
-    fetch(`${baseUrl}/images/${imageId}`, {
-        method: 'DELETE'
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Failed to delete image');
-        }
-        return response.json();
-    })
-    .then(data => {
-        alert('Image deleted successfully');
-        loadImageLibrary(); // Refresh the image library
-    })
-    .catch(error => {
-        console.error('Error deleting image:', error);
-        alert('Failed to delete image');
-    });
 }
 
 
