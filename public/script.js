@@ -1322,13 +1322,21 @@ async function downloadPackagedHtml() {
     }
 }
 
-function extractBackgroundImageUrl(backgroundImage) {
-    // Regular expression to extract the URL from background image CSS property
-    const urlMatch = backgroundImage.match(/url\(['"]?([^'"\)]+?)['"]?\)/);
-    if (urlMatch && urlMatch.length > 1) {
-        return urlMatch[1];
-    }
-    return null;
+function extractBackgroundImageUrlFromInlineStyle(htmlContent) {
+    const urls = [];
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(htmlContent, 'text/html');
+    const elementsWithStyle = doc.querySelectorAll('[style]');
+
+    elementsWithStyle.forEach(element => {
+        const style = element.getAttribute('style');
+        const matches = style.match(/background-image:\s*url\(['"]?([^'"\)]+?)['"]?\)/);
+        if (matches && matches.length > 1) {
+            urls.push(matches[1]);
+        }
+    });
+
+    return urls;
 }
 
 
@@ -1382,11 +1390,11 @@ function replaceImageUrls(htmlContent, oldUrls, newUrls) {
         updatedHtmlContent = updatedHtmlContent.replace(imgSrcRegex, newUrls[index]);
     });
 
-    // Replace background image URLs
+    // Replace background image URLs in inline style attributes
     oldUrls.forEach((oldUrl, index) => {
         console.log(`Replacing background image ${oldUrl} with ${newUrls[index]}`);
-        const bgImageRegex = new RegExp(`url\\(['"]?${escapeRegExp(oldUrl)}['"]?\\)`, 'g');
-        updatedHtmlContent = updatedHtmlContent.replace(bgImageRegex, `url('${newUrls[index]}')`);
+        const bgImageInlineRegex = new RegExp(`background-image:\\s*url\\(['"]?${escapeRegExp(oldUrl)}['"]?\\)`, 'g');
+        updatedHtmlContent = updatedHtmlContent.replace(bgImageInlineRegex, `background-image: url('${newUrls[index]}')`);
     });
 
     console.log("Updated HTML Content: ", updatedHtmlContent);
