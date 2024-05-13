@@ -861,29 +861,26 @@ window.onclick = function(event) {
     }
 }
 
-function changeFont(componentId) {
+function changeFont(componentId, elementType) {
     const newFont = prompt("Enter font family:");
     if (newFont) {
         const component = document.getElementById(`component-${componentId}`);
-        const h1Element = component.querySelector('h1');
-        const pElement = component.querySelector('p');
+        const element = component.querySelector(elementType);
 
-        h1Element.style.fontFamily = newFont;
-        pElement.style.fontFamily = newFont;
+        element.style.fontFamily = newFont;
     }
 }
 
-function changeFontColor(componentId) {
+function changeFontColor(componentId, elementType) {
     const newColor = prompt("Enter font color (hex or name):");
     if (newColor) {
         const component = document.getElementById(`component-${componentId}`);
-        const h1Element = component.querySelector('h1');
-        const pElement = component.querySelector('p');
+        const element = component.querySelector(elementType);
 
-        h1Element.style.color = newColor;
-        pElement.style.color = newColor;
+        element.style.color = newColor;
     }
 }
+
 
 function applyBold(componentId) {
     document.execCommand('bold', false, null);
