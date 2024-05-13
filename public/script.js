@@ -898,15 +898,11 @@ function changeFontSize(componentId) {
             const range = selection.getRangeAt(0);
             const span = document.createElement('span');
             span.style.fontSize = newSize;
-            const selectedNodes = range.cloneContents().childNodes;
-            for (let i = 0; i < selectedNodes.length; i++) {
-                selectedNodes[i].style.fontSize = newSize;
-            }
-            range.deleteContents();
-            range.insertNode(span);
+            range.surroundContents(span);
         }
     }
 }
+
 
 
 function applyBold(componentId) {
