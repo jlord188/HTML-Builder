@@ -187,27 +187,34 @@ hr {
     left: 360px; 
     width: 10px;
 }
-
-.embed-video-btn {
+.font-btn {
     position: absolute; 
     bottom: 10px; 
     left: 400px; 
     width: 10px;
 }
 
-.embed-image-btn {
+.font-color-btn {
     position: absolute; 
     bottom: 10px; 
     left: 440px; 
     width: 10px;
 }
 
-.edit-html-btn {
+.embed-video-btn {
     position: absolute; 
     bottom: 10px; 
     left: 480px; 
     width: 10px;
 }
+
+.embed-image-btn {
+    position: absolute; 
+    bottom: 10px; 
+    left: 520px; 
+    width: 10px;
+}
+
 
 .delete-embed-btn {
     position: absolute;
