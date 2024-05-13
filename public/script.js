@@ -1285,10 +1285,7 @@ async function downloadPackagedHtml() {
 
     // Collect image URLs from HTML content, including background images
     const imageUrls = Array.from(clonePreviewArea.querySelectorAll('img')).map(img => img.src);
-    const backgroundUrls = Array.from(clonePreviewArea.querySelectorAll('*')).map(element => {
-        const backgroundImage = getComputedStyle(element).backgroundImage;
-        return extractBackgroundImageUrl(backgroundImage);
-    }).filter(url => url !== null);
+    const backgroundUrls = extractBackgroundImageUrlFromInlineStyle(clonePreviewArea.innerHTML);
 
     // Combine image URLs and background image URLs
     const allUrls = [...imageUrls, ...backgroundUrls];
