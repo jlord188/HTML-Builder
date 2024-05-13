@@ -891,7 +891,6 @@ function changeFontColor(componentId) {
 }
 
 function changeFontSize(componentId) {
-    console.log("Change font size function called."); // Add this line for debugging
     const newSize = prompt("Enter font size:");
     if (newSize) {
         const selection = window.getSelection();
@@ -899,7 +898,12 @@ function changeFontSize(componentId) {
             const range = selection.getRangeAt(0);
             const span = document.createElement('span');
             span.style.fontSize = newSize;
-            range.surroundContents(span);
+            const selectedNodes = range.cloneContents().childNodes;
+            for (let i = 0; i < selectedNodes.length; i++) {
+                selectedNodes[i].style.fontSize = newSize;
+            }
+            range.deleteContents();
+            range.insertNode(span);
         }
     }
 }
