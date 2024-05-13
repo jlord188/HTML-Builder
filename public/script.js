@@ -199,6 +199,9 @@ socket.on('component added', (data) => {
                             <button onclick="changeFontColor('${data.id}')" class="font-color-btn">
                             <i class="fas fa-paint-brush"></i>
                             </button>
+                            <button onclick="changeFontSize('${data.id}')" class="font-size-btn">
+                            <i class="fas fa-text-height"></i>
+                            </button>
                             <button onclick="embedVideo()" class="embed-video-btn">
                             <i class="fas fa-video"></i>
                             </button>
@@ -887,6 +890,18 @@ function changeFontColor(componentId) {
     }
 }
 
+function changeFontSize(componentId) {
+    const newSize = prompt("Enter font size:");
+    if (newSize) {
+        const selection = window.getSelection();
+        if (!selection.isCollapsed) {
+            const range = selection.getRangeAt(0);
+            const span = document.createElement('span');
+            span.style.fontSize = newSize;
+            range.surroundContents(span);
+        }
+    }
+}
 
 function applyBold(componentId) {
     document.execCommand('bold', false, null);
