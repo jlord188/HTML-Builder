@@ -891,18 +891,12 @@ function changeFontColor(componentId) {
 }
 
 function changeFontSize(componentId) {
-    console.log("changeFontSize function called");
     const newSize = prompt("Enter font size:");
     if (newSize) {
-        const selection = window.getSelection();
-        if (!selection.isCollapsed) {
-            const range = selection.getRangeAt(0);
-            const span = document.createElement('span');
-            span.style.fontSize = newSize;
-            range.surroundContents(span);
-        }
+        document.execCommand('fontSize', false, newSize);
     }
 }
+
 
 
 
