@@ -861,23 +861,29 @@ window.onclick = function(event) {
     }
 }
 
-function changeFont(componentId, elementType) {
+function changeFont(componentId) {
     const newFont = prompt("Enter font family:");
     if (newFont) {
-        const component = document.getElementById(`component-${componentId}`);
-        const element = component.querySelector(elementType);
-
-        element.style.fontFamily = newFont;
+        const selection = window.getSelection();
+        if (!selection.isCollapsed) {
+            const range = selection.getRangeAt(0);
+            const span = document.createElement('span');
+            span.style.fontFamily = newFont;
+            range.surroundContents(span);
+        }
     }
 }
 
-function changeFontColor(componentId, elementType) {
+function changeFontColor(componentId) {
     const newColor = prompt("Enter font color (hex or name):");
     if (newColor) {
-        const component = document.getElementById(`component-${componentId}`);
-        const element = component.querySelector(elementType);
-
-        element.style.color = newColor;
+        const selection = window.getSelection();
+        if (!selection.isCollapsed) {
+            const range = selection.getRangeAt(0);
+            const span = document.createElement('span');
+            span.style.color = newColor;
+            range.surroundContents(span);
+        }
     }
 }
 
