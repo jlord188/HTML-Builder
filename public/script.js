@@ -1285,27 +1285,24 @@ async function downloadPackagedHtml() {
 
     // Collect image URLs from HTML content, including background images
     const imageUrls = Array.from(clonePreviewArea.querySelectorAll('img')).map(img => img.src);
-    // Collect background image URLs from inline styles
-    Array.from(clonePreviewArea.querySelectorAll('*')).forEach(element => {
+    const backgroundUrls = Array.from(clonePreviewArea.querySelectorAll('*')).map(element => {
         const backgroundImage = getComputedStyle(element).backgroundImage;
-        if (backgroundImage && backgroundImage !== 'none') {
-            const backgroundImageUrl = extractBackgroundImageUrl(backgroundImage);
-            if (backgroundImageUrl) {
-                imageUrls.push(backgroundImageUrl);
-            }
-        }
-    });
+        return extractBackgroundImageUrl(backgroundImage);
+    }).filter(url => url !== null);
+
+    // Combine image URLs and background image URLs
+    const allUrls = [...imageUrls, ...backgroundUrls];
 
     try {
         // Download images and store them in a temporary directory
-        const imageFiles = await Promise.all(imageUrls.map(downloadImage));
+        const imageFiles = await Promise.all(allUrls.map(downloadImage));
 
         // Filter out any failed downloads (null values)
         const successfulImageFiles = imageFiles.filter(file => file !== null);
         const successfulImageUrls = successfulImageFiles.map(file => `images/${file.name}`);
 
         // Replace image URLs in HTML content with local file paths
-        const updatedHtmlContent = replaceImageUrls(clonePreviewArea.innerHTML, imageUrls, successfulImageUrls);
+        const updatedHtmlContent = replaceImageUrls(clonePreviewArea.innerHTML, allUrls, successfulImageUrls);
 
         // Create a zip file containing index.html and images
         const zip = new JSZip();
@@ -1333,6 +1330,7 @@ function extractBackgroundImageUrl(backgroundImage) {
     }
     return null;
 }
+
 
 
 
