@@ -891,6 +891,7 @@ function changeFontColor(componentId) {
 }
 
 function changeFontSize(componentId) {
+    console.log("Change font size function called."); // Add this line for debugging
     const newSize = prompt("Enter font size:");
     if (newSize) {
         const selection = window.getSelection();
@@ -902,6 +903,7 @@ function changeFontSize(componentId) {
         }
     }
 }
+
 
 function applyBold(componentId) {
     document.execCommand('bold', false, null);
