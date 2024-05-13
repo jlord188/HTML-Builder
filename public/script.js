@@ -890,17 +890,24 @@ function changeFontColor(componentId) {
     }
 }
 
-function changeFontSize(componentId) {
-    const newSize = prompt("Enter font size:");
+function changeHeaderFontSize(componentId) {
+    const newSize = prompt("Enter font size for header:");
     if (newSize) {
         const component = document.getElementById(`component-${componentId}`);
         const h1Element = component.querySelector('h1');
-        const pElement = component.querySelector('p');
-
         h1Element.style.fontSize = newSize + 'px';
+    }
+}
+
+function changeParagraphFontSize(componentId) {
+    const newSize = prompt("Enter font size for paragraph:");
+    if (newSize) {
+        const component = document.getElementById(`component-${componentId}`);
+        const pElement = component.querySelector('p');
         pElement.style.fontSize = newSize + 'px';
     }
 }
+
 
 
 
