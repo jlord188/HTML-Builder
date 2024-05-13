@@ -203,7 +203,7 @@ socket.on('component added', (data) => {
                             <i class="fas fa-text-height"></i> 
                             </button>
                             <button onclick="changeParagraphFontSize('${data.id}')" class="font-size-p">
-                            <i class="fas fa-text-width"></i> 
+                            <i class="fas fa-text-height"></i> 
                             </button>
                             <button onclick="embedVideo()" class="embed-video-btn">
                             <i class="fas fa-video"></i>
@@ -292,6 +292,18 @@ socket.on('component added', (data) => {
                     <button onclick="setTextAlignment('${data.id}', 'right')"class="right-btn">
                     <i class="fas fa-align-right"></i>
                     </button>
+                    <button onclick="changeFont('${data.id}')" class="font-btn">
+                    <i class="fas fa-font"></i>
+                    </button>
+                    <button onclick="changeFontColor('${data.id}')" class="font-color-btn">
+                    <i class="fas fa-paint-brush"></i>
+                    </button>
+                    <button onclick="changeHeaderFontSize('${data.id}')" class="font-size-h">
+                    <i class="fas fa-text-height"></i> 
+                    </button>
+                    <button onclick="changeParagraphFontSize('${data.id}')" class="font-size-p">
+                    <i class="fas fa-text-height"></i> 
+                    </button>
                     <button onclick="embedVideo()" class="embed-video-btn">
                     <i class="fas fa-video"></i>
                     </button>
@@ -377,6 +389,18 @@ socket.on('component added', (data) => {
                     <button onclick="setTextAlignment('${data.id}', 'right')"class="right-btn">
                     <i class="fas fa-align-right"></i>
                     </button>
+                    <button onclick="changeFont('${data.id}')" class="font-btn">
+                    <i class="fas fa-font"></i>
+                    </button>
+                    <button onclick="changeFontColor('${data.id}')" class="font-color-btn">
+                    <i class="fas fa-paint-brush"></i>
+                    </button>
+                    <button onclick="changeHeaderFontSize('${data.id}')" class="font-size-h">
+                    <i class="fas fa-text-height"></i> 
+                    </button>
+                    <button onclick="changeParagraphFontSize('${data.id}')" class="font-size-p">
+                    <i class="fas fa-text-height"></i> 
+                    </button>
                     <button onclick="embedVideo()" class="embed-video-btn">
                     <i class="fas fa-video"></i>
                     </button>
@@ -451,6 +475,18 @@ socket.on('component added', (data) => {
                     <button onclick="setTextAlignment('${data.id}', 'right')"class="right-btn">
                     <i class="fas fa-align-right"></i>
                     </button>
+                    <button onclick="changeFont('${data.id}')" class="font-btn">
+                    <i class="fas fa-font"></i>
+                    </button>
+                    <button onclick="changeFontColor('${data.id}')" class="font-color-btn">
+                    <i class="fas fa-paint-brush"></i>
+                    </button>
+                    <button onclick="changeHeaderFontSize('${data.id}')" class="font-size-h">
+                    <i class="fas fa-text-height"></i> 
+                    </button>
+                    <button onclick="changeParagraphFontSize('${data.id}')" class="font-size-p">
+                    <i class="fas fa-text-height"></i> 
+                    </button>
                     <button onclick="embedVideo()" class="embed-video-btn">
                     <i class="fas fa-video"></i>
                     </button>
@@ -512,6 +548,18 @@ socket.on('component added', (data) => {
                     <button onclick="setTextAlignment('${data.id}', 'right')"class="right-btn">
                     <i class="fas fa-align-right"></i>
                     </button>
+                    <button onclick="changeFont('${data.id}')" class="font-btn">
+                    <i class="fas fa-font"></i>
+                    </button>
+                    <button onclick="changeFontColor('${data.id}')" class="font-color-btn">
+                    <i class="fas fa-paint-brush"></i>
+                    </button>
+                    <button onclick="changeHeaderFontSize('${data.id}')" class="font-size-h">
+                    <i class="fas fa-text-height"></i> 
+                    </button>
+                    <button onclick="changeParagraphFontSize('${data.id}')" class="font-size-p">
+                    <i class="fas fa-text-height"></i> 
+                    </button>
                     <button onclick="embedVideo()" class="embed-video-btn">
                     <i class="fas fa-video"></i>
                     </button>
@@ -571,6 +619,24 @@ socket.on('component added', (data) => {
                     </button>
                     <button onclick="setTextAlignment('${data.id}', 'right')"class="right-btn">
                     <i class="fas fa-align-right"></i>
+                    </button>
+                    <button onclick="changeFont('${data.id}')" class="font-btn">
+                    <i class="fas fa-font"></i>
+                    </button>
+                    <button onclick="changeFontColor('${data.id}')" class="font-color-btn">
+                    <i class="fas fa-paint-brush"></i>
+                    </button>
+                    <button onclick="changeHeaderFontSize('${data.id}')" class="font-size-h">
+                    <i class="fas fa-text-height"></i> 
+                    </button>
+                    <button onclick="changeParagraphFontSize('${data.id}')" class="font-size-p">
+                    <i class="fas fa-text-height"></i> 
+                    </button>
+                    <button onclick="embedVideo()" class="embed-video-btn">
+                    <i class="fas fa-video"></i>
+                    </button>
+                    <button onclick="embedImage('componentId')" class="embed-image-btn">
+                    <i class="fas fa-image"></i>
                     </button>
             </div>
             </div>
