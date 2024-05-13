@@ -1394,6 +1394,7 @@ function replaceImageUrls(htmlContent, oldUrls, newUrls) {
 }
 
 
+
 function escapeRegExp(string) {
     return string.replace(/[.*+\-?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
 }
