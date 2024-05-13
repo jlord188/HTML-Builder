@@ -1324,13 +1324,12 @@ async function downloadPackagedHtml() {
 
 function extractBackgroundImageUrl(backgroundImage) {
     // Regular expression to extract the URL from background image CSS property
-    const urlMatch = backgroundImage.match(/url\(['"]?([^'"]+?)['"]?\)/);
+    const urlMatch = backgroundImage.match(/url\(['"]?([^'"\)]+?)['"]?\)/);
     if (urlMatch && urlMatch.length > 1) {
         return urlMatch[1];
     }
     return null;
 }
-
 
 
 
