@@ -1345,16 +1345,33 @@ function triggerDownload(blob) {
 
 async function downloadImage(imageUrl) {
     console.log(`Attempting to fetch image from: ${imageUrl}`);
-    const response = await fetch(imageUrl);
-    if (!response.ok) {
-        console.error(`Failed to fetch image: ${response.statusText}`);
+    try {
+        // Check if the URL is a regular image URL
+        if (imageUrl.startsWith('data:image')) {
+            // If it's a data URL (base64 encoded), convert it to a Blob directly
+            const blob = await fetch(imageUrl).then(response => response.blob());
+            const extension = imageUrl.split(';')[0].split('/')[1];
+            const filename = `image-${Date.now()}.${extension}`;
+            console.log(`Downloaded image ${filename} with size ${blob.size}`);
+            return new File([blob], filename, { type: blob.type });
+        } else {
+            // If it's a regular URL, fetch the image as usual
+            const response = await fetch(imageUrl);
+            if (!response.ok) {
+                console.error(`Failed to fetch image: ${response.statusText}`);
+                return null; // Return null to handle this gracefully later
+            }
+            const blob = await response.blob();
+            const filename = imageUrl.split('/').pop();
+            console.log(`Downloaded image ${filename} with size ${blob.size}`);
+            return new File([blob], filename, { type: blob.type });
+        }
+    } catch (error) {
+        console.error(`Error downloading image from ${imageUrl}:`, error);
         return null; // Return null to handle this gracefully later
     }
-    const blob = await response.blob();
-    const filename = imageUrl.split('/').pop();
-    console.log(`Downloaded image ${filename} with size ${blob.size}`);
-    return new File([blob], filename, { type: blob.type });
 }
+
 
 function replaceImageUrls(htmlContent, oldUrls, newUrls) {
     let updatedHtmlContent = htmlContent;
