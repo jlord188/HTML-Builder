@@ -1283,8 +1283,16 @@ async function downloadPackagedHtml() {
         element.parentNode.removeChild(element);
     });
 
-    // Collect image URLs from HTML content
+    // Collect image URLs from HTML content, including background images
     const imageUrls = Array.from(clonePreviewArea.querySelectorAll('img')).map(img => img.src);
+    // Collect background image URLs from inline styles
+    Array.from(clonePreviewArea.querySelectorAll('*')).forEach(element => {
+        const backgroundImage = getComputedStyle(element).backgroundImage;
+        if (backgroundImage && backgroundImage !== 'none') {
+            const backgroundImageUrl = backgroundImage.replace(/url\(['"]?([^'"]+?)['"]?\)/g, '$1');
+            imageUrls.push(backgroundImageUrl);
+        }
+    });
 
     try {
         // Download images and store them in a temporary directory
@@ -1309,11 +1317,7 @@ async function downloadPackagedHtml() {
 
         // Trigger download of the zip file
         const zipBlob = await zip.generateAsync({ type: 'blob' });
-        const zipUrl = URL.createObjectURL(zipBlob);
-        const link = document.createElement('a');
-        link.href = zipUrl;
-        link.download = 'packaged-html.zip';
-        link.click();
+        triggerDownload(zipBlob);
     } catch (error) {
         console.error('Failed to package HTML:', error);
     }
@@ -1344,12 +1348,19 @@ async function downloadImage(imageUrl) {
 
 function replaceImageUrls(htmlContent, oldUrls, newUrls) {
     let updatedHtmlContent = htmlContent;
+
+    // Replace image URLs in 'src' attributes of <img> tags
     oldUrls.forEach((oldUrl, index) => {
-        console.log(`Replacing ${oldUrl} with ${newUrls[index]}`);
         const imgSrcRegex = new RegExp(escapeRegExp(oldUrl), 'g');
         updatedHtmlContent = updatedHtmlContent.replace(imgSrcRegex, newUrls[index]);
     });
-    console.log("Updated HTML Content: ", updatedHtmlContent);
+
+    // Replace image URLs in 'style' attributes for background images
+    oldUrls.forEach((oldUrl, index) => {
+        const backgroundImageRegex = new RegExp(`url\\(['"]?${escapeRegExp(oldUrl)}['"]?\\)`, 'g');
+        updatedHtmlContent = updatedHtmlContent.replace(backgroundImageRegex, `url('${newUrls[index]}')`);
+    });
+
     return updatedHtmlContent;
 }
 
