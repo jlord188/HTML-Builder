@@ -891,6 +891,7 @@ function changeFontColor(componentId) {
 }
 
 function changeFontSize(componentId) {
+    console.log("changeFontSize function called");
     const newSize = prompt("Enter font size:");
     if (newSize) {
         const selection = window.getSelection();
