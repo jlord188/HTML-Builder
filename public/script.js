@@ -199,7 +199,7 @@ socket.on('component added', (data) => {
                             <button onclick="changeFontColor('${data.id}')" class="font-color-btn">
                             <i class="fas fa-paint-brush"></i>
                             </button>
-                            <button onclick="fontSizeModal('${data.id}')" class="font-size-h">
+                            <button onclick="openFontSizeModal('${data.id}')" class="font-size-h">
                             <i class="fas fa-text-height"></i> 
                             </button>
                             <button onclick="embedVideo()" class="embed-video-btn">
@@ -956,7 +956,6 @@ function changeFontColor(componentId) {
     }
 }
 
-// Open the modal
 function openFontSizeModal() {
   const modal = document.getElementById('fontSizeModal');
   modal.style.display = 'block';
@@ -968,11 +967,29 @@ function closeFontSizeModal() {
   modal.style.display = 'none';
 }
 
-
-// Close the modal
-function closeFontSizeModal() {
-  const modal = document.getElementById('fontSizeModal');
-  modal.style.display = 'none';
+// Apply the font sizes from the modal inputs
+function applyFontSizes(componentId) {
+  const headerFontSize = document.getElementById('headerFontSize').value;
+  const paragraphFontSize = document.getElementById('paragraphFontSize').value;
+  
+  if (headerFontSize || paragraphFontSize) {
+    const component = document.getElementById(`component-${componentId}`);
+    const headerElements = component.querySelectorAll('h1, h2, h3');
+    headerElements.forEach(element => {
+      if (headerFontSize) {
+        element.style.fontSize = headerFontSize + 'px';
+      }
+    });
+    
+    const paragraphElements = component.querySelectorAll('p');
+    paragraphElements.forEach(element => {
+      if (paragraphFontSize) {
+        element.style.fontSize = paragraphFontSize + 'px';
+      }
+    });
+    
+    closeFontSizeModal(); // Close the modal after applying font sizes
+  }
 }
 
 // Apply the font sizes from the modal inputs
