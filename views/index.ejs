@@ -264,18 +264,18 @@
 
                 <!-- The font size Modal -->
 <div id="fontSizeModal" class="modal">
-  <div class="modal-content">
-    <span class="close">&times;</span>
-    <h2>Change Font Sizes</h2>
-    <label for="headerFontSize">Header Font Size:</label>
-    <input type="number" id="headerFontSize" placeholder="Enter font size for header">
-    <br>
-    <label for="paragraphFontSize">Paragraph Font Size:</label>
-    <input type="number" id="paragraphFontSize" placeholder="Enter font size for paragraph">
-    <br>
-    <button onclick="applyFontSizes('${data.id}')">Apply</button>
+    <div class="modal-content">
+      <span class="close" onclick="closeFontSizeModal()">&times;</span>
+      <h2>Change Font Sizes</h2>
+      <label for="headerFontSize">Header Font Size:</label>
+      <input type="number" id="headerFontSize" placeholder="Enter font size for header">
+      <br>
+      <label for="paragraphFontSize">Paragraph Font Size:</label>
+      <input type="number" id="paragraphFontSize" placeholder="Enter font size for paragraph">
+      <br>
+      <button class="apply-font-sizes" onclick="applyFontSizes()">Apply</button>
+    </div>
   </div>
-</div>
 
 
             </div>
