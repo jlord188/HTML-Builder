@@ -957,9 +957,12 @@ function changeFontColor(componentId) {
     }
 }
 
-function openFontSizeModal() {
+function openFontSizeModal(componentId) {
   const modal = document.getElementById('fontSizeModal');
   modal.style.display = 'block';
+  // Attach the component ID to the apply button
+  const applyButton = modal.querySelector('button.apply-font-sizes');
+  applyButton.setAttribute('data-component-id', componentId);
 }
 
 // Close the modal
@@ -969,10 +972,12 @@ function closeFontSizeModal() {
 }
 
 // Apply the font sizes from the modal inputs
-function applyFontSizes(componentId) {
+function applyFontSizes() {
+  const modal = document.getElementById('fontSizeModal');
+  const componentId = modal.querySelector('button.apply-font-sizes').getAttribute('data-component-id');
   const headerFontSize = document.getElementById('headerFontSize').value;
   const paragraphFontSize = document.getElementById('paragraphFontSize').value;
-  
+
   if (headerFontSize || paragraphFontSize) {
     const component = document.getElementById(`component-${componentId}`);
     const headerElements = component.querySelectorAll('h1, h2, h3');
@@ -981,44 +986,17 @@ function applyFontSizes(componentId) {
         element.style.fontSize = headerFontSize + 'px';
       }
     });
-    
+
     const paragraphElements = component.querySelectorAll('p');
     paragraphElements.forEach(element => {
       if (paragraphFontSize) {
         element.style.fontSize = paragraphFontSize + 'px';
       }
     });
-    
+
     closeFontSizeModal(); // Close the modal after applying font sizes
   }
 }
-
-// Apply the font sizes from the modal inputs
-function applyFontSizes(componentId) {
-  const headerFontSize = document.getElementById('headerFontSize').value;
-  const paragraphFontSize = document.getElementById('paragraphFontSize').value;
-  
-  if (headerFontSize || paragraphFontSize) {
-    const component = document.getElementById(`component-${componentId}`);
-    const headerElements = component.querySelectorAll('h1, h2, h3');
-    headerElements.forEach(element => {
-      if (headerFontSize) {
-        element.style.fontSize = headerFontSize + 'px';
-      }
-    });
-    
-    const paragraphElements = component.querySelectorAll('p');
-    paragraphElements.forEach(element => {
-      if (paragraphFontSize) {
-        element.style.fontSize = paragraphFontSize + 'px';
-      }
-    });
-    
-    closeFontSizeModal(); // Close the modal after applying font sizes
-  }
-}
-
-
 
 
 
