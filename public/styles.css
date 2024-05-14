@@ -208,23 +208,18 @@ hr {
     width: 10px;
 }
 
-.font-size-p {
-    position: absolute; 
-    bottom: 10px; 
-    left: 520px; 
-    width: 10px;
-}
+
 .embed-video-btn {
     position: absolute; 
     bottom: 10px; 
-    left: 560px; 
+    left: 520px; 
     width: 10px;
 }
 
 .embed-image-btn {
     position: absolute; 
     bottom: 10px; 
-    left: 600px; 
+    left: 580px; 
     width: 10px;
 }
 
