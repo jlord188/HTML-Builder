@@ -968,6 +968,13 @@ function closeFontSizeModal() {
   modal.style.display = 'none';
 }
 
+
+// Close the modal
+function closeFontSizeModal() {
+  const modal = document.getElementById('fontSizeModal');
+  modal.style.display = 'none';
+}
+
 // Apply the font sizes from the modal inputs
 function applyFontSizes(componentId) {
   const headerFontSize = document.getElementById('headerFontSize').value;
