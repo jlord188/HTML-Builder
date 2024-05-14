@@ -295,12 +295,6 @@ socket.on('component added', (data) => {
                     <button onclick="changeFontColor('${data.id}')" class="font-color-btn">
                     <i class="fas fa-paint-brush"></i>
                     </button>
-                    <button onclick="changeHeaderFontSize('${data.id}')" class="font-size-h">
-                    <i class="fas fa-text-height"></i> 
-                    </button>
-                    <button onclick="changeParagraphFontSize('${data.id}')" class="font-size-p">
-                    <i class="fas fa-text-height"></i> 
-                    </button>
                     <button onclick="openFontSizeModal('${data.id}')" class="font-size-h">
                     <i class="fas fa-text-height"></i> 
                     </button>
@@ -394,12 +388,6 @@ socket.on('component added', (data) => {
                     </button>
                     <button onclick="changeFontColor('${data.id}')" class="font-color-btn">
                     <i class="fas fa-paint-brush"></i>
-                    </button>
-                    <button onclick="changeHeaderFontSize('${data.id}')" class="font-size-h">
-                    <i class="fas fa-text-height"></i> 
-                    </button>
-                    <button onclick="changeParagraphFontSize('${data.id}')" class="font-size-p">
-                    <i class="fas fa-text-height"></i> 
                     </button>
                     <button onclick="openFontSizeModal('${data.id}')" class="font-size-h">
                     <i class="fas fa-text-height"></i> 
@@ -560,12 +548,6 @@ socket.on('component added', (data) => {
                     <button onclick="changeFontColor('${data.id}')" class="font-color-btn">
                     <i class="fas fa-paint-brush"></i>
                     </button>
-                    <button onclick="changeHeaderFontSize('${data.id}')" class="font-size-h">
-                    <i class="fas fa-text-height"></i> 
-                    </button>
-                    <button onclick="changeParagraphFontSize('${data.id}')" class="font-size-p">
-                    <i class="fas fa-text-height"></i> 
-                    </button>
                     <button onclick="openFontSizeModal('${data.id}')" class="font-size-h">
                     <i class="fas fa-text-height"></i> 
                     </button>
@@ -634,12 +616,6 @@ socket.on('component added', (data) => {
                     </button>
                     <button onclick="changeFontColor('${data.id}')" class="font-color-btn">
                     <i class="fas fa-paint-brush"></i>
-                    </button>
-                    <button onclick="changeHeaderFontSize('${data.id}')" class="font-size-h">
-                    <i class="fas fa-text-height"></i> 
-                    </button>
-                    <button onclick="changeParagraphFontSize('${data.id}')" class="font-size-p">
-                    <i class="fas fa-text-height"></i> 
                     </button>
                     <button onclick="openFontSizeModal('${data.id}')" class="font-size-h">
                     <i class="fas fa-text-height"></i> 
