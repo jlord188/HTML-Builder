@@ -202,6 +202,7 @@ socket.on('component added', (data) => {
                             <button onclick="openFontSizeModal('${data.id}')" class="font-size-h">
                             <i class="fas fa-text-height"></i> 
                             </button>
+
                             <button onclick="embedVideo()" class="embed-video-btn">
                             <i class="fas fa-video"></i>
                             </button>
