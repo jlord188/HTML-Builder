@@ -35,6 +35,21 @@
     border-radius: 5px;
 }
 
+#HeaderInputs label {
+    margin-top: 10px;
+    font-family: 'Open Sans', sans-serif;
+    color: #240F6E;
+}
+#overlay-opacity {
+    width: 100%;
+}
+#overlay-opacity-value {
+    font-family: 'Open Sans', sans-serif;
+    color: #240F6E;
+    display: block;
+    margin-top: 5px;
+}
+
 
 H3 {
     background-color: #ffffff00;
