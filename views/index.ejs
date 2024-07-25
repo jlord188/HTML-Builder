@@ -185,6 +185,11 @@
                         <option value="left">Left</option>
                         <option value="right">Right</option>
                     </select>
+                    <label for="overlay-color">Overlay Colour:</label>
+                    <input type="color" id="overlay-color" value="#000000">
+                    <label for="overlay-opacity">Overlay Opacity:</label>
+                    <input type="range" id="overlay-opacity" min="0" max="100" step="1" value="0">
+                    <span id="overlay-opacity-value">0%</span>
                     <button onclick="addColourComponent()">Add Colour Block</button>
                 </div>
                 
