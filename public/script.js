@@ -50,8 +50,11 @@ function addComponent() {
     const textalignment = document.getElementById('Text-alignment').value;
     const h2Text = document.getElementById('h1-text').value;
     const pText = document.getElementById('p-text').value;
-    socket.emit('add component', { type: 'Header', backgroundUrl, textalignment, h2Text, pText });
+    const overlayColor = document.getElementById('overlay-color').value;
+    const overlayOpacity = document.getElementById('overlay-opacity').value;
+    socket.emit('add component', { type: 'Header', backgroundUrl, textalignment, h2Text, pText, overlayColor, overlayOpacity });
 }
+
 
 function addColourComponent() {
     let backgroundUrl = document.getElementById('colour-background-select').value;
