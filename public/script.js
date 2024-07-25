@@ -150,8 +150,9 @@ socket.on('component added', (data) => {
             <div id="component-${data.id}" class="component">
                 <table width="100%" cellspacing="20px" cellpadding="40px" style="border-collapse: collapse;">
                     <tr>
-                        <td style="background-image: url('${data.backgroundUrl}'); background-size: cover; background-position: center; background-repeat: no-repeat; width: 100%;">    
-                            <table width="100%" cellspacing="20px" cellpadding="40px" style="border-collapse: collapse;">
+                        <td style="position: relative; background-image: url('${data.backgroundUrl}'); background-size: cover; background-position: center; background-repeat: no-repeat; width: 100%;">
+                            <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: ${data.overlayColor}; opacity: ${data.overlayOpacity};"></div>
+                            <table width="100%" cellspacing="20px" cellpadding="40px" style="position: relative; border-collapse: collapse;">
                                 <tr>
                                     <td width="100%" style="padding: 40px;">
                                         <h1 contenteditable="true"  style="font-family: Georgia, bold; font-size: 36px; color: #240F6E; text-align: ${data.textalignment};">${data.h2Text}</h1>
@@ -162,57 +163,57 @@ socket.on('component added', (data) => {
                         </td>
                     </tr>
                 </table>
-                    <div id="components-preview">
-                        <!-- Up button -->
-                        <div class="up-btn-container">
-                            <button onclick="moveComponent('${data.id}', 'up')" class="move-btn up-btn">
-                            <i class="fa fa-arrow-up" aria-hidden="true"></i>
-                            </button>
-                        </div>  
-                        <div>
-                        <!-- Down button -->
-                            <button onclick="moveComponent('${data.id}', 'down')" class="move-btn down-btn">
-                            <i class="fa fa-arrow-down" aria-hidden="true"></i>
-                            </button>
-                        <!-- Delete button -->
-                            <button onclick="deleteComponent('${data.id}')" class="delete-btn">
-                            <i class="fas fa-times-circle"></i>
-                            </button>
-                            <button onclick="applyBold('${data.id}')" class="bold-btn">
-                            <i class="fas fa-bold"></i>
-                            </button>
-                            <button onclick="applyLink('${data.id}')" class="link-btn">
-                            <i class="fas fa-link"></i>
-                            </button>
-                            <button onclick="applyBullet('${data.id}')" class="bullet-btn">
-                            <i class="fas fa-list-ul"></i>
-                            </button>
-                            <button onclick="setTextAlignment('${data.id}', 'left')"class="left-btn">
-                            <i class="fas fa-align-left"></i>
-                            </button>
-                            <button onclick="setTextAlignment('${data.id}', 'center')"class="center-btn">
-                            <i class="fas fa-align-center"></i>
-                            </button>
-                            <button onclick="setTextAlignment('${data.id}', 'right')"class="right-btn">
-                            <i class="fas fa-align-right"></i>
-                            </button>
-                            <button onclick="changeFont('${data.id}')" class="font-btn">
-                            <i class="fas fa-font"></i>
-                            </button>
-                            <button onclick="changeFontColor('${data.id}')" class="font-color-btn">
-                            <i class="fas fa-paint-brush"></i>
-                            </button>
-                            <button onclick="openFontSizeModal('${data.id}')" class="font-size-h">
-                            <i class="fas fa-text-height"></i> 
-                            </button>
-                            <button onclick="embedVideo()" class="embed-video-btn">
-                            <i class="fas fa-video"></i>
-                            </button>
-                            <button onclick="embedImage('componentId')" class="embed-image-btn">
-                            <i class="fas fa-image"></i>
-                            </button>
+                <div id="components-preview">
+                    <!-- Up button -->
+                    <div class="up-btn-container">
+                        <button onclick="moveComponent('${data.id}', 'up')" class="move-btn up-btn">
+                        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+                        </button>
+                    </div>  
+                    <div>
+                    <!-- Down button -->
+                        <button onclick="moveComponent('${data.id}', 'down')" class="move-btn down-btn">
+                        <i class="fa fa-arrow-down" aria-hidden="true"></i>
+                        </button>
+                    <!-- Delete button -->
+                        <button onclick="deleteComponent('${data.id}')" class="delete-btn">
+                        <i class="fas fa-times-circle"></i>
+                        </button>
+                        <button onclick="applyBold('${data.id}')" class="bold-btn">
+                        <i class="fas fa-bold"></i>
+                        </button>
+                        <button onclick="applyLink('${data.id}')" class="link-btn">
+                        <i class="fas fa-link"></i>
+                        </button>
+                        <button onclick="applyBullet('${data.id}')" class="bullet-btn">
+                        <i class="fas fa-list-ul"></i>
+                        </button>
+                        <button onclick="setTextAlignment('${data.id}', 'left')"class="left-btn">
+                        <i class="fas fa-align-left"></i>
+                        </button>
+                        <button onclick="setTextAlignment('${data.id}', 'center')"class="center-btn">
+                        <i class="fas fa-align-center"></i>
+                        </button>
+                        <button onclick="setTextAlignment('${data.id}', 'right')"class="right-btn">
+                        <i class="fas fa-align-right"></i>
+                        </button>
+                        <button onclick="changeFont('${data.id}')" class="font-btn">
+                        <i class="fas fa-font"></i>
+                        </button>
+                        <button onclick="changeFontColor('${data.id}')" class="font-color-btn">
+                        <i class="fas fa-paint-brush"></i>
+                        </button>
+                        <button onclick="openFontSizeModal('${data.id}')" class="font-size-h">
+                        <i class="fas fa-text-height"></i> 
+                        </button>
+                        <button onclick="embedVideo()" class="embed-video-btn">
+                        <i class="fas fa-video"></i>
+                        </button>
+                        <button onclick="embedImage('componentId')" class="embed-image-btn">
+                        <i class="fas fa-image"></i>
+                        </button>
                     </div>
-                    </div>
+                </div>
             </div>
 
 
