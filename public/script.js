@@ -55,11 +55,6 @@ function addComponent() {
     socket.emit('add component', { type: 'Header', backgroundUrl, textalignment, h2Text, pText, overlayColor, overlayOpacity });
 }
 
-document.getElementById('overlay-opacity').addEventListener('input', function() {
-    document.getElementById('overlay-opacity-value').textContent = `${this.value}%`;
-});
-
-
 
 function addColourComponent() {
     let backgroundUrl = document.getElementById('colour-background-select').value;
@@ -69,8 +64,14 @@ function addColourComponent() {
     const textalignment = document.getElementById('Text-alignment-colour').value;
     const h2Text = document.getElementById('colour-h2-text').value;
     const pText = document.getElementById('colour-p-text').value;
+    const overlayColor = document.getElementById('overlay-color').value;
+    const overlayOpacity = document.getElementById('overlay-opacity').value / 100; // Convert percentage to decimal
     socket.emit('add component', { type: 'Colour', backgroundUrl, textalignment, h2Text, pText });
 }
+
+document.getElementById('overlay-opacity').addEventListener('input', function() {
+    document.getElementById('overlay-opacity-value').textContent = `${this.value}%`;
+});
 
 function addFooterComponent() {
     const textalignment = document.getElementById('Text-alignment-footer').value;
@@ -499,7 +500,8 @@ socket.on('component added', (data) => {
             <div id="component-${data.id}" class="component">
                 <table width="100%" cellspacing="20px" cellpadding="40px" style="border-collapse: collapse;">
                     <tr>
-                        <td style="background-image: url('${data.backgroundUrl}'); background-size: cover; background-position: center; background-repeat: no-repeat; width: 100%;">    
+                        <td style="background-image: url('${data.backgroundUrl}'); background-size: cover; background-position: center; background-repeat: no-repeat; width: 100%;">
+                            <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: ${data.overlayColor}; opacity: ${data.overlayOpacity};"></div>
                             <table width="100%" cellspacing="20px" cellpadding="40px" style="border-collapse: collapse;">
                                 <tr>
                                     <td width="100%" style="padding: 40px;">
