@@ -36,7 +36,7 @@
 }
 
 
-#overlay-opacity-value, #overlay-color, #overlay-opacity {
+#overlay-opacity-value {
     font-family: 'Open Sans', sans-serif;
     color: #240F6E;
     font-weight: bold;
@@ -45,6 +45,23 @@
     margin-top: 5px;
 }
 
+#overlay-color {
+    font-family: 'Open Sans', sans-serif;
+    color: #240F6E;
+    font-weight: bold;
+    display: block;
+    text-align: center;
+    margin-top: 5px;
+}
+
+#overlay-opacity {
+    font-family: 'Open Sans', sans-serif;
+    color: #240F6E;
+    font-weight: bold;
+    display: block;
+    text-align: center;
+    margin-top: 5px;
+}
 H3 {
     background-color: #ffffff00;
     color: #240F6E;
