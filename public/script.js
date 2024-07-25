@@ -66,7 +66,7 @@ function addColourComponent() {
     const pText = document.getElementById('colour-p-text').value;
     const overlayColor = document.getElementById('overlay-color').value;
     const overlayOpacity = document.getElementById('overlay-opacity').value / 100; // Convert percentage to decimal
-    socket.emit('add component', { type: 'Colour', backgroundUrl, textalignment, h2Text, pText });
+    socket.emit('add component', { type: 'Colour', backgroundUrl, textalignment, h2Text, pText, overlayColor, overlayOpacity });
 }
 
 document.getElementById('overlay-opacity').addEventListener('input', function() {
