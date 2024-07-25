@@ -55,6 +55,9 @@ function addComponent() {
     socket.emit('add component', { type: 'Header', backgroundUrl, textalignment, h2Text, pText, overlayColor, overlayOpacity });
 }
 
+document.getElementById('overlay-opacity').addEventListener('input', function() {
+    document.getElementById('overlay-opacity-value').textContent = `${this.value}%`;
+});
 
 function addColourComponent() {
     let backgroundUrl = document.getElementById('colour-background-select').value;
@@ -64,13 +67,13 @@ function addColourComponent() {
     const textalignment = document.getElementById('Text-alignment-colour').value;
     const h2Text = document.getElementById('colour-h2-text').value;
     const pText = document.getElementById('colour-p-text').value;
-    const overlayColor = document.getElementById('overlay-color').value;
-    const overlayOpacity = document.getElementById('overlay-opacity').value / 100; // Convert percentage to decimal
+    const overlayColor = document.getElementById('c-overlay-color').value;
+    const overlayOpacity = document.getElementById('c-overlay-opacity').value / 100; // Convert percentage to decimal
     socket.emit('add component', { type: 'Colour', backgroundUrl, textalignment, h2Text, pText, overlayColor, overlayOpacity });
 }
 
-document.getElementById('overlay-opacity').addEventListener('input', function() {
-    document.getElementById('overlay-opacity-value').textContent = `${this.value}%`;
+document.getElementById('c-overlay-opacity').addEventListener('input', function() {
+    document.getElementById('c-overlay-opacity-value').textContent = `${this.value}%`;
 });
 
 function addFooterComponent() {
