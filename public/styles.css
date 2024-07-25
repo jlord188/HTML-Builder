@@ -35,28 +35,8 @@
     border-radius: 5px;
 }
 
-.align-Text, .overlay-label {
-    background-color: #ffffff00;
-    color: #240F6E;
-    text-align: center;
-    font-family: 'Open sans';
-    font-size: 14px;
-    font-weight: bold;
-    display: block;
-    margin-top: 10px;
-}
 
-.overlay-settings {
-    text-align: center;
-}
-
-#overlay-opacity {
-    width: 80%;
-    margin: 0 auto;
-    display: block;
-}
-
-#overlay-opacity-value {
+#overlay-opacity-value, .overlay-label, .overlay-settings  {
     font-family: 'Open Sans', sans-serif;
     color: #240F6E;
     font-weight: bold;
