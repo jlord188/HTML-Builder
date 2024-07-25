@@ -36,7 +36,7 @@
 }
 
 
-#overlay-opacity-value, #overlay-label, #overlay-settings  {
+.overlay-opacity-value, .overlay-color, .overlay-opacity {
     font-family: 'Open Sans', sans-serif;
     color: #240F6E;
     font-weight: bold;
