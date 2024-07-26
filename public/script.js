@@ -965,16 +965,25 @@ function changeFontColor(componentId) {
                 } else if (node.nodeType === Node.ELEMENT_NODE) {
                     // For element nodes, apply the color directly without changing other styles
                     const originalStyle = node.getAttribute('style') || '';
-                    node.style.cssText = `${originalStyle} color: ${newColor};`;
+                    const updatedStyle = `${originalStyle}; color: ${newColor};`;
+                    node.setAttribute('style', updatedStyle);
                     span.appendChild(node);
                 }
             });
 
             // Insert the modified content back into the range
             range.insertNode(span);
+
+            // Normalize the span tags to avoid unnecessary nesting
+            const parent = span.parentNode;
+            while (span.firstChild) {
+                parent.insertBefore(span.firstChild, span);
+            }
+            parent.removeChild(span);
         }
     }
 }
+
 
 
 
