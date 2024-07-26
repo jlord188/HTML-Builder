@@ -963,8 +963,9 @@ function changeFontColor(componentId) {
                     textSpan.textContent = node.textContent;
                     span.appendChild(textSpan);
                 } else if (node.nodeType === Node.ELEMENT_NODE) {
-                    // For element nodes, apply the color directly
-                    node.style.color = newColor;
+                    // For element nodes, apply the color directly without changing other styles
+                    const originalStyle = node.getAttribute('style') || '';
+                    node.style.cssText = `${originalStyle} color: ${newColor};`;
                     span.appendChild(node);
                 }
             });
@@ -974,6 +975,7 @@ function changeFontColor(componentId) {
         }
     }
 }
+
 
 
 function openFontSizeModal(componentId) {
