@@ -950,10 +950,31 @@ function changeFontColor(componentId) {
             const range = selection.getRangeAt(0);
             const span = document.createElement('span');
             span.style.color = newColor;
-            range.surroundContents(span);
+
+            // Extract the selected contents
+            const selectedContents = range.extractContents();
+            
+            // Iterate through the nodes in the extracted contents
+            selectedContents.childNodes.forEach(node => {
+                if (node.nodeType === Node.TEXT_NODE) {
+                    // For text nodes, wrap them in a span
+                    const textSpan = document.createElement('span');
+                    textSpan.style.color = newColor;
+                    textSpan.textContent = node.textContent;
+                    span.appendChild(textSpan);
+                } else if (node.nodeType === Node.ELEMENT_NODE) {
+                    // For element nodes, apply the color directly
+                    node.style.color = newColor;
+                    span.appendChild(node);
+                }
+            });
+
+            // Insert the modified content back into the range
+            range.insertNode(span);
         }
     }
 }
+
 
 function openFontSizeModal(componentId) {
   const modal = document.getElementById('fontSizeModal');
