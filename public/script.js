@@ -508,8 +508,8 @@ socket.on('component added', (data) => {
                             <table width="100%" cellspacing="20px" cellpadding="40px" style="border-collapse: collapse;">
                                 <tr>
                                     <td width="100%" style="padding: 40px;">
-                                    <h2 contenteditable="true"  style="font-family: Georgia, serif; font-size: 20px; color: #240F6E; text-align: ${data.textalignment};">${data.h2Text}</h2>
-                                    <p contenteditable="true" style="font-family: sans-serif; color: #383838; font-size: 16px; line-height: 1.4; text-align: ${data.textalignment};">${data.pText}</p>                                    
+                                    <h2 contenteditable="true" style="font-family: Georgia, serif; font-size: 20px; color: #240F6E; text-align: ${data.textalignment}; z-index: 1; position: relative;">${data.h2Text}</h2>
+                                    <p contenteditable="true" style="font-family: sans-serif; color: #383838; font-size: 16px; line-height: 1.4; text-align: ${data.textalignment}; z-index: 1; position: relative;">${data.pText}</p>                                    
                                     </td>
                                 </tr>
                             </table>
